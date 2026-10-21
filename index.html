@@ -135,10 +135,10 @@ footer .wrap { padding-block: 24px 40px; }
   <div class="wrap">
     <p class="kicker">Behavioural modelling &amp; verification</p>
     <h1>Verilog Lab Programs</h1>
-    <p class="lede">Design code and self-checking testbenches for Experiments 3 &amp; 4 (combinational subsystems) and Experiment 5 (flip-flops, registers and counters). Every testbench prints <code>RESULT: PASS</code> or <code>FAIL</code> at the end.</p>
+    <p class="lede">Design code and testbenches for Experiments 3 &amp; 4 (combinational subsystems) and Experiment 5 (flip-flops, registers and counters). Each program has a <b>Simple TB</b> (short, easy to write in an exam) and a <b>Full TB</b> (self-checking, prints <code>RESULT: PASS</code>).</p>
     <ul class="facts">
       <li><b>17</b> programs</li>
-      <li><b>35</b> files</li>
+      <li><b>52</b> files</li>
       <li>Plain Verilog-2005</li>
       <li>All simulated: <b>17 / 17 PASS</b></li>
     </ul>
@@ -153,7 +153,7 @@ footer .wrap { padding-block: 24px 40px; }
       <h3>Online (no install): EDA Playground</h3>
       <ol>
         <li>Open <a href="https://www.edaplayground.com" target="_blank" rel="noopener">edaplayground.com</a> and log in (free).</li>
-        <li>Paste the <b>Testbench</b> in the left pane and the <b>Design</b> in the right pane.</li>
+        <li>Paste <b>one</b> testbench (Simple TB or Full TB) in the left pane and the <b>Design</b> in the right pane.</li>
         <li>Tools &amp; Simulators: choose <b>Icarus Verilog</b>.</li>
         <li>Click <b>Run</b>. The log ends with <code>RESULT: PASS</code>.</li>
       </ol>
@@ -164,7 +164,7 @@ footer .wrap { padding-block: 24px 40px; }
         <li>Put the design and testbench in one folder.</li>
         <li>Compile and run:</li>
       </ol>
-      <pre>iverilog -o sim cla_adder.v tb_cla_adder.v
+      <pre>iverilog -o sim cla_adder.v tb_cla_adder_simple.v
 vvp sim</pre>
     </div>
     <div>
@@ -193,8 +193,8 @@ vvp sim</pre>
   <p class="eyebrow">Experiment 3 & 4 · Program 1</p>
   <h2>Parameterized Carry-Lookahead Adder</h2>
   <p class="summary">N-bit adder (default 16) that computes generate G = a&amp;b and propagate P = a^b, then every carry with c[i+1] = G[i] | P[i]&amp;c[i] inside an always @(*) loop.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> 8 corner cases (all 0s, all 1s, FFFF+1 …) and 10,000 random vectors against the + operator.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Parameterized Carry-Lookahead Adder"><button class="tab" role="tab" id="e34-p1-f0-t" aria-controls="e34-p1-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">cla_adder.v</span></button><button class="tab" role="tab" id="e34-p1-f1-t" aria-controls="e34-p1-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_cla_adder.v</span></button><button class="tab" role="tab" id="e34-p1-f2-t" aria-controls="e34-p1-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> 8 corner cases (all 0s, all 1s, FFFF+1 …) and 10,000 random vectors against the + operator.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Parameterized Carry-Lookahead Adder"><button class="tab" role="tab" id="e34-p1-f0-t" aria-controls="e34-p1-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">cla_adder.v</span></button><button class="tab" role="tab" id="e34-p1-f1-t" aria-controls="e34-p1-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_cla_adder_simple.v</span></button><button class="tab" role="tab" id="e34-p1-f2-t" aria-controls="e34-p1-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e34-p1-f3-t" aria-controls="e34-p1-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_cla_adder.v</span></button><button class="tab" role="tab" id="e34-p1-f4-t" aria-controls="e34-p1-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e34-p1-f0" aria-labelledby="e34-p1-f0-t"><div class="panel-bar"><span class="fname">cla_adder.v</span><span class="lines">31 lines</span><button class="copy" type="button" data-copy="e34-p1-f0-code">Copy</button></div><pre class="code"><code id="e34-p1-f0-code" class="language-verilog">// ============================================================
 // Program 1 : Parameterized Carry-Lookahead Adder (CLA)
 // ------------------------------------------------------------
@@ -226,7 +226,37 @@ module cla_adder #(parameter N = 16) (
         cout = c[N];
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p1-f1" aria-labelledby="e34-p1-f1-t" hidden><div class="panel-bar"><span class="fname">tb_cla_adder.v</span><span class="lines">61 lines</span><button class="copy" type="button" data-copy="e34-p1-f1-code">Copy</button></div><pre class="code"><code id="e34-p1-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p1-f1" aria-labelledby="e34-p1-f1-t" hidden><div class="panel-bar"><span class="fname">tb_cla_adder_simple.v</span><span class="lines">24 lines</span><button class="copy" type="button" data-copy="e34-p1-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e34-p1-f1-code" class="language-verilog">// Simple testbench : Carry-Lookahead Adder (16-bit)
+// Apply a few inputs, print the result, compare with the expected value.
+`timescale 1ns/1ps
+module tb_cla_adder_simple;
+    reg  [15:0] a, b;
+    reg         cin;
+    wire [15:0] sum;
+    wire        cout;
+
+    cla_adder dut (.a(a), .b(b), .cin(cin), .sum(sum), .cout(cout));
+
+    initial begin
+        $monitor("a=%h b=%h cin=%b  -&gt;  cout=%b sum=%h", a, b, cin, cout, sum);
+
+        a = 16'h0000; b = 16'h0000; cin = 0; #10;   // expect cout=0 sum=0000
+        a = 16'h1234; b = 16'h1111; cin = 0; #10;   // expect cout=0 sum=2345
+        a = 16'h00FF; b = 16'h0001; cin = 1; #10;   // expect cout=0 sum=0101
+        a = 16'hFFFF; b = 16'h0001; cin = 0; #10;   // expect cout=1 sum=0000 (longest carry)
+        a = 16'hFFFF; b = 16'hFFFF; cin = 1; #10;   // expect cout=1 sum=FFFF
+        a = 16'h8000; b = 16'h8000; cin = 0; #10;   // expect cout=1 sum=0000
+
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p1-f2" aria-labelledby="e34-p1-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">6 lines</span><button class="copy" type="button" data-copy="e34-p1-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e34-p1-f2-code" class="language-plaintext nohighlight">a=0000 b=0000 cin=0  -&gt;  cout=0 sum=0000
+a=1234 b=1111 cin=0  -&gt;  cout=0 sum=2345
+a=00ff b=0001 cin=1  -&gt;  cout=0 sum=0101
+a=ffff b=0001 cin=0  -&gt;  cout=1 sum=0000
+a=ffff b=ffff cin=1  -&gt;  cout=1 sum=ffff
+a=8000 b=8000 cin=0  -&gt;  cout=1 sum=0000
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p1-f3" aria-labelledby="e34-p1-f3-t" hidden><div class="panel-bar"><span class="fname">tb_cla_adder.v</span><span class="lines">61 lines</span><button class="copy" type="button" data-copy="e34-p1-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e34-p1-f3-code" class="language-verilog">// ============================================================
 // Testbench : Carry-Lookahead Adder
 //  Reference model : the Verilog '+' operator
 //  Tests : directed corner cases + 10,000 random vectors
@@ -287,7 +317,7 @@ module tb_cla_adder;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p1-f2" aria-labelledby="e34-p1-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">3 lines</span><button class="copy" type="button" data-copy="e34-p1-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e34-p1-f2-code" class="language-plaintext nohighlight">--------------------------------------
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p1-f4" aria-labelledby="e34-p1-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">3 lines</span><button class="copy" type="button" data-copy="e34-p1-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e34-p1-f4-code" class="language-plaintext nohighlight">--------------------------------------
 CLA (N=16): 10008 tests, 0 errors
 RESULT: PASS
 </code></pre></div>
@@ -297,8 +327,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 3 & 4 · Program 2</p>
   <h2>16-bit Barrel Shifter</h2>
   <p class="summary">Shifts by 0–15 in five modes: LSL, LSR, ASR (keeps the sign bit), ROL and ROR. Each output bit is picked from the correct input bit, like the barrel shifter's mux network.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> A separate reference function per mode; every mode × every shift amount × 50 data values = 4,000 checks.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for 16-bit Barrel Shifter"><button class="tab" role="tab" id="e34-p2-f0-t" aria-controls="e34-p2-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">barrel_shifter.v</span></button><button class="tab" role="tab" id="e34-p2-f1-t" aria-controls="e34-p2-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_barrel_shifter.v</span></button><button class="tab" role="tab" id="e34-p2-f2-t" aria-controls="e34-p2-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> A separate reference function per mode; every mode × every shift amount × 50 data values = 4,000 checks.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for 16-bit Barrel Shifter"><button class="tab" role="tab" id="e34-p2-f0-t" aria-controls="e34-p2-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">barrel_shifter.v</span></button><button class="tab" role="tab" id="e34-p2-f1-t" aria-controls="e34-p2-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_barrel_shifter_simple.v</span></button><button class="tab" role="tab" id="e34-p2-f2-t" aria-controls="e34-p2-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e34-p2-f3-t" aria-controls="e34-p2-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_barrel_shifter.v</span></button><button class="tab" role="tab" id="e34-p2-f4-t" aria-controls="e34-p2-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e34-p2-f0" aria-labelledby="e34-p2-f0-t"><div class="panel-bar"><span class="fname">barrel_shifter.v</span><span class="lines">36 lines</span><button class="copy" type="button" data-copy="e34-p2-f0-code">Copy</button></div><pre class="code"><code id="e34-p2-f0-code" class="language-verilog">// ============================================================
 // Program 2 : 16-bit Barrel Shifter
 // ------------------------------------------------------------
@@ -335,7 +365,41 @@ module barrel_shifter (
         end
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p2-f1" aria-labelledby="e34-p2-f1-t" hidden><div class="panel-bar"><span class="fname">tb_barrel_shifter.v</span><span class="lines">79 lines</span><button class="copy" type="button" data-copy="e34-p2-f1-code">Copy</button></div><pre class="code"><code id="e34-p2-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p2-f1" aria-labelledby="e34-p2-f1-t" hidden><div class="panel-bar"><span class="fname">tb_barrel_shifter_simple.v</span><span class="lines">27 lines</span><button class="copy" type="button" data-copy="e34-p2-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e34-p2-f1-code" class="language-verilog">// Simple testbench : 16-bit Barrel Shifter
+// Same data, shift by 2, in every mode. Then two edge cases.
+`timescale 1ns/1ps
+module tb_barrel_shifter_simple;
+    reg  [15:0] din;
+    reg  [3:0]  shamt;
+    reg  [2:0]  mode;
+    wire [15:0] dout;
+
+    barrel_shifter dut (.din(din), .shamt(shamt), .mode(mode), .dout(dout));
+
+    initial begin
+        $monitor("mode=%b shamt=%0d din=%b  -&gt;  dout=%b (%h)", mode, shamt, din, dout, dout);
+
+        din = 16'h8006; shamt = 2;
+        mode = 3'b000; #10;      // LSL : expect 0018
+        mode = 3'b001; #10;      // LSR : expect 2001
+        mode = 3'b010; #10;      // ASR : expect E001 (sign bit copied)
+        mode = 3'b011; #10;      // ROL : expect 001A
+        mode = 3'b100; #10;      // ROR : expect A001
+
+        din = 16'h0001; shamt = 15; mode = 3'b000; #10;   // LSL by 15 : expect 8000
+        din = 16'hABCD; shamt = 0;  mode = 3'b011; #10;   // shift by 0 : expect ABCD
+
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p2-f2" aria-labelledby="e34-p2-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">7 lines</span><button class="copy" type="button" data-copy="e34-p2-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e34-p2-f2-code" class="language-plaintext nohighlight">mode=000 shamt=2 din=1000000000000110  -&gt;  dout=0000000000011000 (0018)
+mode=001 shamt=2 din=1000000000000110  -&gt;  dout=0010000000000001 (2001)
+mode=010 shamt=2 din=1000000000000110  -&gt;  dout=1110000000000001 (e001)
+mode=011 shamt=2 din=1000000000000110  -&gt;  dout=0000000000011010 (001a)
+mode=100 shamt=2 din=1000000000000110  -&gt;  dout=1010000000000001 (a001)
+mode=000 shamt=15 din=0000000000000001  -&gt;  dout=1000000000000000 (8000)
+mode=011 shamt=0 din=1010101111001101  -&gt;  dout=1010101111001101 (abcd)
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p2-f3" aria-labelledby="e34-p2-f3-t" hidden><div class="panel-bar"><span class="fname">tb_barrel_shifter.v</span><span class="lines">79 lines</span><button class="copy" type="button" data-copy="e34-p2-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e34-p2-f3-code" class="language-verilog">// ============================================================
 // Testbench : 16-bit Barrel Shifter
 //  One reference function per mode.
 //  Every mode x every shift amount (0..15) x 50 random values
@@ -414,7 +478,7 @@ module tb_barrel_shifter;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p2-f2" aria-labelledby="e34-p2-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">3 lines</span><button class="copy" type="button" data-copy="e34-p2-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e34-p2-f2-code" class="language-plaintext nohighlight">--------------------------------------
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p2-f4" aria-labelledby="e34-p2-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">3 lines</span><button class="copy" type="button" data-copy="e34-p2-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e34-p2-f4-code" class="language-plaintext nohighlight">--------------------------------------
 Barrel shifter: 4000 tests, 0 errors
 RESULT: PASS
 </code></pre></div>
@@ -424,8 +488,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 3 & 4 · Program 3</p>
   <h2>8-bit ALU with Status Flags</h2>
   <p class="summary">16 operations selected by a 4-bit opcode (ADD … DEC) with Zero, Carry, signed Overflow and Negative flags. For SUB/SBB/DEC the carry flag means borrow.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> 232 vectors read from alu_vectors.txt with $readmemh; every result and flag compared, mismatches printed with the operation name.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for 8-bit ALU with Status Flags"><button class="tab" role="tab" id="e34-p3-f0-t" aria-controls="e34-p3-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">alu8.v</span></button><button class="tab" role="tab" id="e34-p3-f1-t" aria-controls="e34-p3-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_alu8.v</span></button><button class="tab" role="tab" id="e34-p3-f2-t" aria-controls="e34-p3-f2" aria-selected="false" data-kind="data"><span class="tab-kind">Vectors</span><span class="tab-name">alu_vectors.txt</span></button><button class="tab" role="tab" id="e34-p3-f3-t" aria-controls="e34-p3-f3" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> 232 vectors read from alu_vectors.txt with $readmemh; every result and flag compared, mismatches printed with the operation name.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for 8-bit ALU with Status Flags"><button class="tab" role="tab" id="e34-p3-f0-t" aria-controls="e34-p3-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">alu8.v</span></button><button class="tab" role="tab" id="e34-p3-f1-t" aria-controls="e34-p3-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_alu8_simple.v</span></button><button class="tab" role="tab" id="e34-p3-f2-t" aria-controls="e34-p3-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e34-p3-f3-t" aria-controls="e34-p3-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_alu8.v</span></button><button class="tab" role="tab" id="e34-p3-f4-t" aria-controls="e34-p3-f4" aria-selected="false" data-kind="data"><span class="tab-kind">Vectors</span><span class="tab-name">alu_vectors.txt</span></button><button class="tab" role="tab" id="e34-p3-f5-t" aria-controls="e34-p3-f5" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e34-p3-f0" aria-labelledby="e34-p3-f0-t"><div class="panel-bar"><span class="fname">alu8.v</span><span class="lines">79 lines</span><button class="copy" type="button" data-copy="e34-p3-f0-code">Copy</button></div><pre class="code"><code id="e34-p3-f0-code" class="language-verilog">// ============================================================
 // Program 3 : 8-bit ALU with Status Flags
 // ------------------------------------------------------------
@@ -505,7 +569,50 @@ module alu8 (
     assign zero     = (result == 8'h00);
     assign negative = result[7];
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p3-f1" aria-labelledby="e34-p3-f1-t" hidden><div class="panel-bar"><span class="fname">tb_alu8.v</span><span class="lines">68 lines</span><button class="copy" type="button" data-copy="e34-p3-f1-code">Copy</button></div><pre class="code"><code id="e34-p3-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p3-f1" aria-labelledby="e34-p3-f1-t" hidden><div class="panel-bar"><span class="fname">tb_alu8_simple.v</span><span class="lines">32 lines</span><button class="copy" type="button" data-copy="e34-p3-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e34-p3-f1-code" class="language-verilog">// Simple testbench : 8-bit ALU
+// One or two examples of each kind of operation. Flags shown as Z C V N.
+`timescale 1ns/1ps
+module tb_alu8_simple;
+    reg  [3:0] opcode;
+    reg  [7:0] a, b;
+    reg        cin;
+    wire [7:0] result;
+    wire       zero, carry, overflow, negative;
+
+    alu8 dut (.opcode(opcode), .a(a), .b(b), .cin(cin), .result(result),
+              .zero(zero), .carry(carry), .overflow(overflow), .negative(negative));
+
+    initial begin
+        $monitor("op=%h a=%h b=%h cin=%b  -&gt;  result=%h  Z=%b C=%b V=%b N=%b",
+                 opcode, a, b, cin, result, zero, carry, overflow, negative);
+        cin = 0;
+        opcode = 4'h0; a = 8'h7F; b = 8'h01; #10;   // ADD : 80, V=1 N=1 (127+1 overflows)
+        opcode = 4'h0; a = 8'hFF; b = 8'h01; #10;   // ADD : 00, Z=1 C=1
+        opcode = 4'h1; a = 8'h01; b = 8'h01; cin = 1; #10;  // ADC : 03
+        opcode = 4'h2; a = 8'h05; b = 8'h07; cin = 0; #10;  // SUB : FE, C=1 (borrow) N=1
+        opcode = 4'h4; a = 8'hF0; b = 8'h3C; #10;   // AND : 30
+        opcode = 4'h6; a = 8'hF0; b = 8'h3C; #10;   // XOR : CC, N=1
+        opcode = 4'h7; a = 8'h0F;            #10;   // NOT : F0, N=1
+        opcode = 4'hA; a = 8'h81;            #10;   // SHL : 02, C=1
+        opcode = 4'hD; a = 8'h01;            #10;   // ROR : 80, C=1 N=1
+        opcode = 4'hE; a = 8'h7F;            #10;   // INC : 80, V=1 N=1
+        opcode = 4'hF; a = 8'h00;            #10;   // DEC : FF, C=1 (borrow) N=1
+
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p3-f2" aria-labelledby="e34-p3-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">11 lines</span><button class="copy" type="button" data-copy="e34-p3-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e34-p3-f2-code" class="language-plaintext nohighlight">op=0 a=7f b=01 cin=0  -&gt;  result=80  Z=0 C=0 V=1 N=1
+op=0 a=ff b=01 cin=0  -&gt;  result=00  Z=1 C=1 V=0 N=0
+op=1 a=01 b=01 cin=1  -&gt;  result=03  Z=0 C=0 V=0 N=0
+op=2 a=05 b=07 cin=0  -&gt;  result=fe  Z=0 C=1 V=0 N=1
+op=4 a=f0 b=3c cin=0  -&gt;  result=30  Z=0 C=0 V=0 N=0
+op=6 a=f0 b=3c cin=0  -&gt;  result=cc  Z=0 C=0 V=0 N=1
+op=7 a=0f b=3c cin=0  -&gt;  result=f0  Z=0 C=0 V=0 N=1
+op=a a=81 b=3c cin=0  -&gt;  result=02  Z=0 C=1 V=0 N=0
+op=d a=01 b=3c cin=0  -&gt;  result=80  Z=0 C=1 V=0 N=1
+op=e a=7f b=3c cin=0  -&gt;  result=80  Z=0 C=0 V=1 N=1
+op=f a=00 b=3c cin=0  -&gt;  result=ff  Z=0 C=1 V=0 N=1
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p3-f3" aria-labelledby="e34-p3-f3-t" hidden><div class="panel-bar"><span class="fname">tb_alu8.v</span><span class="lines">68 lines</span><button class="copy" type="button" data-copy="e34-p3-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e34-p3-f3-code" class="language-verilog">// ============================================================
 // Testbench : 8-bit ALU
 //  Test vectors are read from "alu_vectors.txt" using $readmemh.
 //  Each line = 9 hex digits :  O C AA BB RR F
@@ -573,7 +680,7 @@ module tb_alu8;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p3-f2" aria-labelledby="e34-p3-f2-t" hidden><div class="panel-bar"><span class="fname">alu_vectors.txt</span><span class="lines">250 lines</span><button class="copy" type="button" data-copy="e34-p3-f2-code">Copy</button></div><p class="panel-note">Save this as <code>alu_vectors.txt</code> in the same folder you simulate from (on EDA Playground, add it as a new file tab).</p><pre class="code"><code id="e34-p3-f2-code" class="language-plaintext nohighlight">// ALU test vectors for $readmemh
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p3-f4" aria-labelledby="e34-p3-f4-t" hidden><div class="panel-bar"><span class="fname">alu_vectors.txt</span><span class="lines">250 lines</span><button class="copy" type="button" data-copy="e34-p3-f4-code">Copy</button></div><p class="panel-note">Save this as <code>alu_vectors.txt</code> in the same folder you simulate from (on EDA Playground, add it as a new file tab).</p><pre class="code"><code id="e34-p3-f4-code" class="language-plaintext nohighlight">// ALU test vectors for $readmemh
 // format: O C AA BB RR F  (opcode, cin, A, B, expected result, expected flags ZCVN)
 // ---- ADD ----
 000000008
@@ -823,7 +930,7 @@ F063B0620
 F0E4B2E31
 F0BA29B91
 F070346F0
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p3-f3" aria-labelledby="e34-p3-f3-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">3 lines</span><button class="copy" type="button" data-copy="e34-p3-f3-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e34-p3-f3-code" class="language-plaintext nohighlight">--------------------------------------
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p3-f5" aria-labelledby="e34-p3-f5-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">3 lines</span><button class="copy" type="button" data-copy="e34-p3-f5-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e34-p3-f5-code" class="language-plaintext nohighlight">--------------------------------------
 ALU: 232 vectors checked, 0 mismatches
 RESULT: PASS
 </code></pre></div>
@@ -833,8 +940,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 3 & 4 · Program 4</p>
   <h2>Signed Booth Multiplier (Radix-2)</h2>
   <p class="summary">8×8 signed multiplier using Booth's rule on {Q0, Q-1}: 01 → add M, 10 → subtract M, then arithmetic shift right, 8 times. The accumulator is 9 bits so −128 × −128 works.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> Exhaustive: all 65,536 signed pairs against the * operator, plus −128×−128, −128×127 and ×0 printed.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Signed Booth Multiplier (Radix-2)"><button class="tab" role="tab" id="e34-p4-f0-t" aria-controls="e34-p4-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">booth_mult.v</span></button><button class="tab" role="tab" id="e34-p4-f1-t" aria-controls="e34-p4-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_booth_mult.v</span></button><button class="tab" role="tab" id="e34-p4-f2-t" aria-controls="e34-p4-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> Exhaustive: all 65,536 signed pairs against the * operator, plus −128×−128, −128×127 and ×0 printed.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Signed Booth Multiplier (Radix-2)"><button class="tab" role="tab" id="e34-p4-f0-t" aria-controls="e34-p4-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">booth_mult.v</span></button><button class="tab" role="tab" id="e34-p4-f1-t" aria-controls="e34-p4-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_booth_mult_simple.v</span></button><button class="tab" role="tab" id="e34-p4-f2-t" aria-controls="e34-p4-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e34-p4-f3-t" aria-controls="e34-p4-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_booth_mult.v</span></button><button class="tab" role="tab" id="e34-p4-f4-t" aria-controls="e34-p4-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e34-p4-f0" aria-labelledby="e34-p4-f0-t"><div class="panel-bar"><span class="fname">booth_mult.v</span><span class="lines">41 lines</span><button class="copy" type="button" data-copy="e34-p4-f0-code">Copy</button></div><pre class="code"><code id="e34-p4-f0-code" class="language-verilog">// ============================================================
 // Program 4 : 8x8 Signed Booth Multiplier (Radix-2, combinational)
 // ------------------------------------------------------------
@@ -876,7 +983,35 @@ module booth_mult (
         product = {A[7:0], Q};
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p4-f1" aria-labelledby="e34-p4-f1-t" hidden><div class="panel-bar"><span class="fname">tb_booth_mult.v</span><span class="lines">49 lines</span><button class="copy" type="button" data-copy="e34-p4-f1-code">Copy</button></div><pre class="code"><code id="e34-p4-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p4-f1" aria-labelledby="e34-p4-f1-t" hidden><div class="panel-bar"><span class="fname">tb_booth_mult_simple.v</span><span class="lines">22 lines</span><button class="copy" type="button" data-copy="e34-p4-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e34-p4-f1-code" class="language-verilog">// Simple testbench : Booth Multiplier (8x8 signed)
+// %d prints the numbers as signed decimals because the regs are signed.
+`timescale 1ns/1ps
+module tb_booth_mult_simple;
+    reg  signed [7:0]  m, q;
+    wire signed [15:0] product;
+
+    booth_mult dut (.m(m), .q(q), .product(product));
+
+    initial begin
+        $monitor("%d x %d = %d", m, q, product);
+
+        m = 3;    q = -2;   #10;   // expect -6
+        m = 7;    q = 5;    #10;   // expect 35
+        m = -1;   q = -1;   #10;   // expect 1
+        m = 0;    q = -77;  #10;   // expect 0
+        m = -128; q = 127;  #10;   // expect -16256
+        m = -128; q = -128; #10;   // expect 16384 (needs the 9-bit A)
+
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p4-f2" aria-labelledby="e34-p4-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">6 lines</span><button class="copy" type="button" data-copy="e34-p4-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e34-p4-f2-code" class="language-plaintext nohighlight">   3 x   -2 =     -6
+   7 x    5 =     35
+  -1 x   -1 =      1
+   0 x  -77 =      0
+-128 x  127 = -16256
+-128 x -128 =  16384
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p4-f3" aria-labelledby="e34-p4-f3-t" hidden><div class="panel-bar"><span class="fname">tb_booth_mult.v</span><span class="lines">49 lines</span><button class="copy" type="button" data-copy="e34-p4-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e34-p4-f3-code" class="language-verilog">// ============================================================
 // Testbench : Booth Multiplier
 //  Exhaustive : all 256 x 256 = 65,536 signed input pairs
 //  Reference  : the Verilog '*' operator on signed numbers
@@ -925,7 +1060,7 @@ module tb_booth_mult;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p4-f2" aria-labelledby="e34-p4-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">8 lines</span><button class="copy" type="button" data-copy="e34-p4-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e34-p4-f2-code" class="language-plaintext nohighlight">-128 x -128 = 16384
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p4-f4" aria-labelledby="e34-p4-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">8 lines</span><button class="copy" type="button" data-copy="e34-p4-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e34-p4-f4-code" class="language-plaintext nohighlight">-128 x -128 = 16384
 -128 x  127 = -16256
  127 x  127 = 16129
    0 x  -77 = 0
@@ -940,8 +1075,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 3 & 4 · Program 5</p>
   <h2>Hamming (7,4) Error-Correcting Codec</h2>
   <p class="summary">Encoder adds parity bits p1, p2, p3 to 4 data bits. Decoder computes the syndrome {s3,s2,s1}, which is the position of a wrong bit, and flips it back.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> All 16 data words × (no error + an error in each of the 7 bits) = 128 checks.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Hamming (7,4) Error-Correcting Codec"><button class="tab" role="tab" id="e34-p5-f0-t" aria-controls="e34-p5-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">hamming74.v</span></button><button class="tab" role="tab" id="e34-p5-f1-t" aria-controls="e34-p5-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_hamming74.v</span></button><button class="tab" role="tab" id="e34-p5-f2-t" aria-controls="e34-p5-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> All 16 data words × (no error + an error in each of the 7 bits) = 128 checks.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Hamming (7,4) Error-Correcting Codec"><button class="tab" role="tab" id="e34-p5-f0-t" aria-controls="e34-p5-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">hamming74.v</span></button><button class="tab" role="tab" id="e34-p5-f1-t" aria-controls="e34-p5-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_hamming74_simple.v</span></button><button class="tab" role="tab" id="e34-p5-f2-t" aria-controls="e34-p5-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e34-p5-f3-t" aria-controls="e34-p5-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_hamming74.v</span></button><button class="tab" role="tab" id="e34-p5-f4-t" aria-controls="e34-p5-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e34-p5-f0" aria-labelledby="e34-p5-f0-t"><div class="panel-bar"><span class="fname">hamming74.v</span><span class="lines">56 lines</span><button class="copy" type="button" data-copy="e34-p5-f0-code">Copy</button></div><pre class="code"><code id="e34-p5-f0-code" class="language-verilog">// ============================================================
 // Program 5 : Hamming (7,4) Encoder and Decoder
 // ------------------------------------------------------------
@@ -998,7 +1133,46 @@ module hamming74_decoder (
 
     assign error = (err_pos != 3'd0);
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p5-f1" aria-labelledby="e34-p5-f1-t" hidden><div class="panel-bar"><span class="fname">tb_hamming74.v</span><span class="lines">48 lines</span><button class="copy" type="button" data-copy="e34-p5-f1-code">Copy</button></div><pre class="code"><code id="e34-p5-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p5-f1" aria-labelledby="e34-p5-f1-t" hidden><div class="panel-bar"><span class="fname">tb_hamming74_simple.v</span><span class="lines">34 lines</span><button class="copy" type="button" data-copy="e34-p5-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e34-p5-f1-code" class="language-verilog">// Simple testbench : Hamming (7,4)
+// Encode 1011, then flip one bit at a time and see the decoder fix it.
+`timescale 1ns/1ps
+module tb_hamming74_simple;
+    reg  [3:0] data;
+    wire [6:0] code;
+    reg  [6:0] received;
+    wire [3:0] data_out;
+    wire [2:0] err_pos;
+    wire       error;
+
+    hamming74_encoder enc (.data(data), .code(code));
+    hamming74_decoder dec (.code_in(received), .data_out(data_out),
+                           .err_pos(err_pos), .error(error));
+
+    initial begin
+        data = 4'b1011; #10;
+        $display("data = %b  -&gt;  codeword = %b   (expect 1010101)", data, code);
+
+        received = code;                 #10;   // no error
+        $display("received %b -&gt; data_out=%b err_pos=%0d  (expect 1011, 0)", received, data_out, err_pos);
+
+        received = code ^ 7'b0000001;    #10;   // flip position 1
+        $display("received %b -&gt; data_out=%b err_pos=%0d  (expect 1011, 1)", received, data_out, err_pos);
+
+        received = code ^ 7'b0010000;    #10;   // flip position 5
+        $display("received %b -&gt; data_out=%b err_pos=%0d  (expect 1011, 5)", received, data_out, err_pos);
+
+        received = code ^ 7'b1000000;    #10;   // flip position 7
+        $display("received %b -&gt; data_out=%b err_pos=%0d  (expect 1011, 7)", received, data_out, err_pos);
+
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p5-f2" aria-labelledby="e34-p5-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e34-p5-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e34-p5-f2-code" class="language-plaintext nohighlight">data = 1011  -&gt;  codeword = 1010101   (expect 1010101)
+received 1010101 -&gt; data_out=1011 err_pos=0  (expect 1011, 0)
+received 1010100 -&gt; data_out=1011 err_pos=1  (expect 1011, 1)
+received 1000101 -&gt; data_out=1011 err_pos=5  (expect 1011, 5)
+received 0010101 -&gt; data_out=1011 err_pos=7  (expect 1011, 7)
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p5-f3" aria-labelledby="e34-p5-f3-t" hidden><div class="panel-bar"><span class="fname">tb_hamming74.v</span><span class="lines">48 lines</span><button class="copy" type="button" data-copy="e34-p5-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e34-p5-f3-code" class="language-verilog">// ============================================================
 // Testbench : Hamming (7,4)
 //  For all 16 data words :
 //     - no error            (1 check)
@@ -1046,7 +1220,7 @@ module tb_hamming74;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p5-f2" aria-labelledby="e34-p5-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">19 lines</span><button class="copy" type="button" data-copy="e34-p5-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e34-p5-f2-code" class="language-plaintext nohighlight">data=0000  codeword=0000000  all 8 cases checked
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p5-f4" aria-labelledby="e34-p5-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">19 lines</span><button class="copy" type="button" data-copy="e34-p5-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e34-p5-f4-code" class="language-plaintext nohighlight">data=0000  codeword=0000000  all 8 cases checked
 data=0001  codeword=0000111  all 8 cases checked
 data=0010  codeword=0011001  all 8 cases checked
 data=0011  codeword=0011110  all 8 cases checked
@@ -1072,8 +1246,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 3 & 4 · Program 6</p>
   <h2>Combinational Integer Divider</h2>
   <p class="summary">8-bit unsigned restoring division in a loop: shift, subtract the divisor, restore if negative. Divide by zero sets a flag, quotient = FF and remainder = dividend.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> Exhaustive: all 65,536 dividend/divisor pairs against / and %, including 256 divide-by-zero cases.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Combinational Integer Divider"><button class="tab" role="tab" id="e34-p6-f0-t" aria-controls="e34-p6-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">divider8.v</span></button><button class="tab" role="tab" id="e34-p6-f1-t" aria-controls="e34-p6-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_divider8.v</span></button><button class="tab" role="tab" id="e34-p6-f2-t" aria-controls="e34-p6-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> Exhaustive: all 65,536 dividend/divisor pairs against / and %, including 256 divide-by-zero cases.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Combinational Integer Divider"><button class="tab" role="tab" id="e34-p6-f0-t" aria-controls="e34-p6-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">divider8.v</span></button><button class="tab" role="tab" id="e34-p6-f1-t" aria-controls="e34-p6-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_divider8_simple.v</span></button><button class="tab" role="tab" id="e34-p6-f2-t" aria-controls="e34-p6-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e34-p6-f3-t" aria-controls="e34-p6-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_divider8.v</span></button><button class="tab" role="tab" id="e34-p6-f4-t" aria-controls="e34-p6-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e34-p6-f0" aria-labelledby="e34-p6-f0-t"><div class="panel-bar"><span class="fname">divider8.v</span><span class="lines">45 lines</span><button class="copy" type="button" data-copy="e34-p6-f0-code">Copy</button></div><pre class="code"><code id="e34-p6-f0-code" class="language-verilog">// ============================================================
 // Program 6 : 8-bit Unsigned Combinational Divider (Restoring)
 // ------------------------------------------------------------
@@ -1119,7 +1293,35 @@ module divider8 (
         end
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p6-f1" aria-labelledby="e34-p6-f1-t" hidden><div class="panel-bar"><span class="fname">tb_divider8.v</span><span class="lines">50 lines</span><button class="copy" type="button" data-copy="e34-p6-f1-code">Copy</button></div><pre class="code"><code id="e34-p6-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p6-f1" aria-labelledby="e34-p6-f1-t" hidden><div class="panel-bar"><span class="fname">tb_divider8_simple.v</span><span class="lines">23 lines</span><button class="copy" type="button" data-copy="e34-p6-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e34-p6-f1-code" class="language-verilog">// Simple testbench : 8-bit Divider
+`timescale 1ns/1ps
+module tb_divider8_simple;
+    reg  [7:0] dividend, divisor;
+    wire [7:0] quotient, remainder;
+    wire       div_by_zero;
+
+    divider8 dut (.dividend(dividend), .divisor(divisor), .quotient(quotient),
+                  .remainder(remainder), .div_by_zero(div_by_zero));
+
+    initial begin
+        $monitor("%0d / %0d  -&gt;  quotient=%0d remainder=%0d div_by_zero=%b",
+                 dividend, divisor, quotient, remainder, div_by_zero);
+
+        dividend = 100; divisor = 7;  #10;   // expect 14 r 2
+        dividend = 7;   divisor = 2;  #10;   // expect 3 r 1
+        dividend = 255; divisor = 16; #10;   // expect 15 r 15
+        dividend = 5;   divisor = 9;  #10;   // expect 0 r 5
+        dividend = 50;  divisor = 0;  #10;   // expect 255 (FF) r 50, div_by_zero=1
+
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p6-f2" aria-labelledby="e34-p6-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e34-p6-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e34-p6-f2-code" class="language-plaintext nohighlight">100 / 7  -&gt;  quotient=14 remainder=2 div_by_zero=0
+7 / 2  -&gt;  quotient=3 remainder=1 div_by_zero=0
+255 / 16  -&gt;  quotient=15 remainder=15 div_by_zero=0
+5 / 9  -&gt;  quotient=0 remainder=5 div_by_zero=0
+50 / 0  -&gt;  quotient=255 remainder=50 div_by_zero=1
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p6-f3" aria-labelledby="e34-p6-f3-t" hidden><div class="panel-bar"><span class="fname">tb_divider8.v</span><span class="lines">50 lines</span><button class="copy" type="button" data-copy="e34-p6-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e34-p6-f3-code" class="language-verilog">// ============================================================
 // Testbench : 8-bit Divider
 //  Exhaustive : all 256 x 256 = 65,536 dividend/divisor pairs
 //  Reference  : '/' and '%' operators
@@ -1169,7 +1371,7 @@ module tb_divider8;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p6-f2" aria-labelledby="e34-p6-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">3 lines</span><button class="copy" type="button" data-copy="e34-p6-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e34-p6-f2-code" class="language-plaintext nohighlight">--------------------------------------
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p6-f4" aria-labelledby="e34-p6-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">3 lines</span><button class="copy" type="button" data-copy="e34-p6-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e34-p6-f4-code" class="language-plaintext nohighlight">--------------------------------------
 Divider: 65536 tests (256 divide-by-zero), 0 errors
 RESULT: PASS
 </code></pre></div>
@@ -1179,8 +1381,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 3 & 4 · Program 7</p>
   <h2>Two-Digit BCD Adder / Subtractor</h2>
   <p class="summary">Packed BCD (00–99) add and subtract with carry/borrow in and out. Adds 6 when a digit goes above 9; subtraction uses the 9's complement + 1. Flags any non-BCD digit as invalid.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> All 10,000 valid pairs for add and subtract with carry-in 0 and 1 (40,000 checks), plus invalid-digit tests.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Two-Digit BCD Adder / Subtractor"><button class="tab" role="tab" id="e34-p7-f0-t" aria-controls="e34-p7-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">bcd_addsub.v</span></button><button class="tab" role="tab" id="e34-p7-f1-t" aria-controls="e34-p7-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_bcd_addsub.v</span></button><button class="tab" role="tab" id="e34-p7-f2-t" aria-controls="e34-p7-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> All 10,000 valid pairs for add and subtract with carry-in 0 and 1 (40,000 checks), plus invalid-digit tests.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Two-Digit BCD Adder / Subtractor"><button class="tab" role="tab" id="e34-p7-f0-t" aria-controls="e34-p7-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">bcd_addsub.v</span></button><button class="tab" role="tab" id="e34-p7-f1-t" aria-controls="e34-p7-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_bcd_addsub_simple.v</span></button><button class="tab" role="tab" id="e34-p7-f2-t" aria-controls="e34-p7-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e34-p7-f3-t" aria-controls="e34-p7-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_bcd_addsub.v</span></button><button class="tab" role="tab" id="e34-p7-f4-t" aria-controls="e34-p7-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e34-p7-f0" aria-labelledby="e34-p7-f0-t"><div class="panel-bar"><span class="fname">bcd_addsub.v</span><span class="lines">62 lines</span><button class="copy" type="button" data-copy="e34-p7-f0-code">Copy</button></div><pre class="code"><code id="e34-p7-f0-code" class="language-verilog">// ============================================================
 // Program 7 : Two-Digit BCD Adder / Subtractor
 // ------------------------------------------------------------
@@ -1243,7 +1445,44 @@ module bcd_addsub (
         end
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p7-f1" aria-labelledby="e34-p7-f1-t" hidden><div class="panel-bar"><span class="fname">tb_bcd_addsub.v</span><span class="lines">81 lines</span><button class="copy" type="button" data-copy="e34-p7-f1-code">Copy</button></div><pre class="code"><code id="e34-p7-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p7-f1" aria-labelledby="e34-p7-f1-t" hidden><div class="panel-bar"><span class="fname">tb_bcd_addsub_simple.v</span><span class="lines">30 lines</span><button class="copy" type="button" data-copy="e34-p7-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e34-p7-f1-code" class="language-verilog">// Simple testbench : BCD Adder / Subtractor
+// Values are written in hex so they read like decimal: 8'h38 means 38.
+`timescale 1ns/1ps
+module tb_bcd_addsub_simple;
+    reg  [7:0] a, b;
+    reg        cin, sub;
+    wire [7:0] result;
+    wire       cout, invalid;
+
+    bcd_addsub dut (.a(a), .b(b), .cin(cin), .sub(sub),
+                    .result(result), .cout(cout), .invalid(invalid));
+
+    initial begin
+        $monitor("sub=%b a=%h b=%h cin=%b  -&gt;  result=%h cout=%b invalid=%b",
+                 sub, a, b, cin, result, cout, invalid);
+        cin = 0;
+        // ---- addition (sub = 0) ----
+        sub = 0; a = 8'h38; b = 8'h45;          #10;   // 38+45 = 83, cout 0
+        sub = 0; a = 8'h99; b = 8'h01;          #10;   // 99+01 = 00, cout 1
+        sub = 0; a = 8'h45; b = 8'h55; cin = 1; #10;   // 45+55+1 = 01, cout 1
+        // ---- subtraction (sub = 1, cout = borrow) ----
+        sub = 1; a = 8'h52; b = 8'h17; cin = 0; #10;   // 52-17 = 35, borrow 0
+        sub = 1; a = 8'h17; b = 8'h52;          #10;   // 17-52 = 65, borrow 1 (100-35)
+        sub = 1; a = 8'h03; b = 8'h05;          #10;   // 03-05 = 98, borrow 1
+        // ---- invalid input ----
+        sub = 0; a = 8'h1A; b = 8'h00;          #10;   // A is not a BCD digit: invalid 1, result 00
+
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p7-f2" aria-labelledby="e34-p7-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">7 lines</span><button class="copy" type="button" data-copy="e34-p7-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e34-p7-f2-code" class="language-plaintext nohighlight">sub=0 a=38 b=45 cin=0  -&gt;  result=83 cout=0 invalid=0
+sub=0 a=99 b=01 cin=0  -&gt;  result=00 cout=1 invalid=0
+sub=0 a=45 b=55 cin=1  -&gt;  result=01 cout=1 invalid=0
+sub=1 a=52 b=17 cin=0  -&gt;  result=35 cout=0 invalid=0
+sub=1 a=17 b=52 cin=0  -&gt;  result=65 cout=1 invalid=0
+sub=1 a=03 b=05 cin=0  -&gt;  result=98 cout=1 invalid=0
+sub=0 a=1a b=00 cin=0  -&gt;  result=00 cout=0 invalid=1
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p7-f3" aria-labelledby="e34-p7-f3-t" hidden><div class="panel-bar"><span class="fname">tb_bcd_addsub.v</span><span class="lines">81 lines</span><button class="copy" type="button" data-copy="e34-p7-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e34-p7-f3-code" class="language-verilog">// ============================================================
 // Testbench : BCD Adder / Subtractor
 //  All 100 x 100 = 10,000 valid pairs, for add AND subtract,
 //  with carry/borrow-in 0 and 1  (40,000 checks).
@@ -1324,7 +1563,7 @@ module tb_bcd_addsub;
         end
     endtask
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e34-p7-f2" aria-labelledby="e34-p7-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">4 lines</span><button class="copy" type="button" data-copy="e34-p7-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e34-p7-f2-code" class="language-plaintext nohighlight">Valid inputs : 40000 checks done
+</code></pre></div><div class="panel" role="tabpanel" id="e34-p7-f4" aria-labelledby="e34-p7-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">4 lines</span><button class="copy" type="button" data-copy="e34-p7-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e34-p7-f4-code" class="language-plaintext nohighlight">Valid inputs : 40000 checks done
 --------------------------------------
 BCD add/sub: 40024 checks, 0 errors
 RESULT: PASS
@@ -1337,8 +1576,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 5 · Program 1</p>
   <h2>Universal Flip-Flop with Async Controls</h2>
   <p class="summary">One flip-flop that acts as D, T, JK or SR (2-bit mode). Active-low asynchronous reset and set (reset wins), clock enable, and an illegal flag for S = R = 1.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> 1,200 random cycles against a reference model; async set/reset pulses between clock edges are checked before the next edge; set + reset together.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Universal Flip-Flop with Async Controls"><button class="tab" role="tab" id="e5-p1-f0-t" aria-controls="e5-p1-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">universal_ff.v</span></button><button class="tab" role="tab" id="e5-p1-f1-t" aria-controls="e5-p1-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_universal_ff.v</span></button><button class="tab" role="tab" id="e5-p1-f2-t" aria-controls="e5-p1-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> 1,200 random cycles against a reference model; async set/reset pulses between clock edges are checked before the next edge; set + reset together.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Universal Flip-Flop with Async Controls"><button class="tab" role="tab" id="e5-p1-f0-t" aria-controls="e5-p1-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">universal_ff.v</span></button><button class="tab" role="tab" id="e5-p1-f1-t" aria-controls="e5-p1-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_universal_ff_simple.v</span></button><button class="tab" role="tab" id="e5-p1-f2-t" aria-controls="e5-p1-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p1-f3-t" aria-controls="e5-p1-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_universal_ff.v</span></button><button class="tab" role="tab" id="e5-p1-f4-t" aria-controls="e5-p1-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p1-f0" aria-labelledby="e5-p1-f0-t"><div class="panel-bar"><span class="fname">universal_ff.v</span><span class="lines">53 lines</span><button class="copy" type="button" data-copy="e5-p1-f0-code">Copy</button></div><pre class="code"><code id="e5-p1-f0-code" class="language-verilog">// ============================================================
 // Program 1 : Configurable Universal Flip-Flop
 // ------------------------------------------------------------
@@ -1392,7 +1631,63 @@ module universal_ff (
         end
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p1-f1" aria-labelledby="e5-p1-f1-t" hidden><div class="panel-bar"><span class="fname">tb_universal_ff.v</span><span class="lines">94 lines</span><button class="copy" type="button" data-copy="e5-p1-f1-code">Copy</button></div><pre class="code"><code id="e5-p1-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p1-f1" aria-labelledby="e5-p1-f1-t" hidden><div class="panel-bar"><span class="fname">tb_universal_ff_simple.v</span><span class="lines">35 lines</span><button class="copy" type="button" data-copy="e5-p1-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p1-f1-code" class="language-verilog">// Simple testbench : Universal Flip-Flop
+// Inputs change on the falling edge; q changes on the next rising edge.
+`timescale 1ns/1ps
+module tb_universal_ff_simple;
+    reg        clk = 0, rst_n = 0, set_n = 1, en = 1;
+    reg  [1:0] mode = 0;
+    reg        in1 = 0, in2 = 0;
+    wire       q, illegal;
+
+    universal_ff dut (.clk(clk), .rst_n(rst_n), .set_n(set_n), .en(en),
+                      .mode(mode), .in1(in1), .in2(in2), .q(q), .illegal(illegal));
+
+    always #5 clk = ~clk;               // 10 ns clock
+
+    initial begin
+        $monitor("t=%3d ns rst_n=%b set_n=%b mode=%b in1=%b in2=%b  -&gt;  q=%b illegal=%b",
+                 $time, rst_n, set_n, mode, in1, in2, q, illegal);
+
+        #12 rst_n = 1;                                  // q = 0 after reset
+        @(negedge clk) mode = 2'b00; in1 = 1;           // D=1      -&gt; q = 1
+        @(negedge clk) in1 = 0;                         // D=0      -&gt; q = 0
+        @(negedge clk) mode = 2'b01; in1 = 1;           // T=1      -&gt; q = 1 (toggle)
+        @(negedge clk) ;                                // T=1      -&gt; q = 0 (toggle)
+        @(negedge clk) mode = 2'b10; in1 = 1; in2 = 0;  // JK=10    -&gt; q = 1 (set)
+        @(negedge clk) in1 = 1; in2 = 1;                // JK=11    -&gt; q = 0 (toggle)
+        @(negedge clk) mode = 2'b11; in1 = 1; in2 = 1;  // SR=11    -&gt; q held, illegal = 1
+        @(negedge clk) in1 = 0; in2 = 0;                // SR=00    -&gt; hold, illegal = 0
+        @(negedge clk) ;
+        #2 set_n = 0;                                   // async set between edges -&gt; q = 1 at once
+        #2 set_n = 1;
+        #2 rst_n = 0;                                   // async reset -&gt; q = 0 at once
+        #2 rst_n = 1;
+        @(negedge clk) $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p1-f2" aria-labelledby="e5-p1-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">21 lines</span><button class="copy" type="button" data-copy="e5-p1-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p1-f2-code" class="language-plaintext nohighlight">t=  0 ns rst_n=0 set_n=1 mode=00 in1=0 in2=0  -&gt;  q=0 illegal=0
+t= 12 ns rst_n=1 set_n=1 mode=00 in1=0 in2=0  -&gt;  q=0 illegal=0
+t= 20 ns rst_n=1 set_n=1 mode=00 in1=1 in2=0  -&gt;  q=0 illegal=0
+t= 25 ns rst_n=1 set_n=1 mode=00 in1=1 in2=0  -&gt;  q=1 illegal=0
+t= 30 ns rst_n=1 set_n=1 mode=00 in1=0 in2=0  -&gt;  q=1 illegal=0
+t= 35 ns rst_n=1 set_n=1 mode=00 in1=0 in2=0  -&gt;  q=0 illegal=0
+t= 40 ns rst_n=1 set_n=1 mode=01 in1=1 in2=0  -&gt;  q=0 illegal=0
+t= 45 ns rst_n=1 set_n=1 mode=01 in1=1 in2=0  -&gt;  q=1 illegal=0
+t= 55 ns rst_n=1 set_n=1 mode=01 in1=1 in2=0  -&gt;  q=0 illegal=0
+t= 60 ns rst_n=1 set_n=1 mode=10 in1=1 in2=0  -&gt;  q=0 illegal=0
+t= 65 ns rst_n=1 set_n=1 mode=10 in1=1 in2=0  -&gt;  q=1 illegal=0
+t= 70 ns rst_n=1 set_n=1 mode=10 in1=1 in2=1  -&gt;  q=1 illegal=0
+t= 75 ns rst_n=1 set_n=1 mode=10 in1=1 in2=1  -&gt;  q=0 illegal=0
+t= 80 ns rst_n=1 set_n=1 mode=11 in1=1 in2=1  -&gt;  q=0 illegal=0
+t= 85 ns rst_n=1 set_n=1 mode=11 in1=1 in2=1  -&gt;  q=0 illegal=1
+t= 90 ns rst_n=1 set_n=1 mode=11 in1=0 in2=0  -&gt;  q=0 illegal=1
+t= 95 ns rst_n=1 set_n=1 mode=11 in1=0 in2=0  -&gt;  q=0 illegal=0
+t=102 ns rst_n=1 set_n=0 mode=11 in1=0 in2=0  -&gt;  q=1 illegal=0
+t=104 ns rst_n=1 set_n=1 mode=11 in1=0 in2=0  -&gt;  q=1 illegal=0
+t=106 ns rst_n=0 set_n=1 mode=11 in1=0 in2=0  -&gt;  q=0 illegal=0
+t=108 ns rst_n=1 set_n=1 mode=11 in1=0 in2=0  -&gt;  q=0 illegal=0
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p1-f3" aria-labelledby="e5-p1-f3-t" hidden><div class="panel-bar"><span class="fname">tb_universal_ff.v</span><span class="lines">94 lines</span><button class="copy" type="button" data-copy="e5-p1-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p1-f3-code" class="language-verilog">// ============================================================
 // Testbench : Universal Flip-Flop
 //  - 1,000+ clock cycles of random mode / inputs / enable
 //  - reference model (exp_q, exp_ill) computed separately
@@ -1486,7 +1781,7 @@ module tb_universal_ff;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p1-f2" aria-labelledby="e5-p1-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p1-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p1-f2-code" class="language-plaintext nohighlight">--------------------------------------
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p1-f4" aria-labelledby="e5-p1-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p1-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p1-f4-code" class="language-plaintext nohighlight">--------------------------------------
 Cycles: 1200, checks: 1387
 Async resets: 59, async sets: 63, set+reset together: 65, illegal SR seen: 63
 Errors: 0
@@ -1498,8 +1793,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 5 · Program 2</p>
   <h2>Parameterized Universal Shift Register</h2>
   <p class="summary">N-bit (default 8) register: hold, shift right, shift left, parallel load, plus arithmetic shift right. Serial inputs for both directions, sync clear, async reset.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> Shadow register compared on every edge for 5,000 random cycles; a single 1 shifted left N times and right N times returns to the start.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Parameterized Universal Shift Register"><button class="tab" role="tab" id="e5-p2-f0-t" aria-controls="e5-p2-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">universal_shift_reg.v</span></button><button class="tab" role="tab" id="e5-p2-f1-t" aria-controls="e5-p2-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_universal_shift_reg.v</span></button><button class="tab" role="tab" id="e5-p2-f2-t" aria-controls="e5-p2-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> Shadow register compared on every edge for 5,000 random cycles; a single 1 shifted left N times and right N times returns to the start.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Parameterized Universal Shift Register"><button class="tab" role="tab" id="e5-p2-f0-t" aria-controls="e5-p2-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">universal_shift_reg.v</span></button><button class="tab" role="tab" id="e5-p2-f1-t" aria-controls="e5-p2-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_universal_shift_reg_simple.v</span></button><button class="tab" role="tab" id="e5-p2-f2-t" aria-controls="e5-p2-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p2-f3-t" aria-controls="e5-p2-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_universal_shift_reg.v</span></button><button class="tab" role="tab" id="e5-p2-f4-t" aria-controls="e5-p2-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p2-f0" aria-labelledby="e5-p2-f0-t"><div class="panel-bar"><span class="fname">universal_shift_reg.v</span><span class="lines">41 lines</span><button class="copy" type="button" data-copy="e5-p2-f0-code">Copy</button></div><pre class="code"><code id="e5-p2-f0-code" class="language-verilog">// ============================================================
 // Program 2 : Parameterized Universal Shift Register (N bits)
 // ------------------------------------------------------------
@@ -1541,7 +1836,49 @@ module universal_shift_reg #(parameter N = 8) (
         end
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p2-f1" aria-labelledby="e5-p2-f1-t" hidden><div class="panel-bar"><span class="fname">tb_universal_shift_reg.v</span><span class="lines">98 lines</span><button class="copy" type="button" data-copy="e5-p2-f1-code">Copy</button></div><pre class="code"><code id="e5-p2-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p2-f1" aria-labelledby="e5-p2-f1-t" hidden><div class="panel-bar"><span class="fname">tb_universal_shift_reg_simple.v</span><span class="lines">28 lines</span><button class="copy" type="button" data-copy="e5-p2-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p2-f1-code" class="language-verilog">// Simple testbench : Universal Shift Register (8-bit)
+`timescale 1ns/1ps
+module tb_universal_shift_reg_simple;
+    reg        clk = 0, rst_n = 0, clr = 0, asr = 0, sin_r = 0, sin_l = 0;
+    reg  [1:0] ctrl = 0;
+    reg  [7:0] d = 0;
+    wire [7:0] q;
+
+    universal_shift_reg #(.N(8)) dut (.clk(clk), .rst_n(rst_n), .clr(clr), .ctrl(ctrl),
+                                      .asr(asr), .sin_r(sin_r), .sin_l(sin_l), .d(d), .q(q));
+
+    always #5 clk = ~clk;
+
+    initial begin
+        $monitor("t=%3d ns ctrl=%b asr=%b sin_r=%b sin_l=%b clr=%b  -&gt;  q=%b",
+                 $time, ctrl, asr, sin_r, sin_l, clr, q);
+
+        #12 rst_n = 1;
+        @(negedge clk) ctrl = 2'b11; d = 8'b1011_0010;   // load       -&gt; 1011_0010
+        @(negedge clk) ctrl = 2'b01; sin_r = 0;          // shift right -&gt; 0101_1001
+        @(negedge clk) ctrl = 2'b11;                     // load again  -&gt; 1011_0010
+        @(negedge clk) ctrl = 2'b01; asr = 1;            // arith right -&gt; 1101_1001
+        @(negedge clk) ctrl = 2'b10; asr = 0; sin_l = 1; // shift left  -&gt; 1011_0011
+        @(negedge clk) ctrl = 2'b00;                     // hold        -&gt; 1011_0011
+        @(negedge clk) clr = 1;                          // sync clear  -&gt; 0000_0000
+        @(negedge clk) $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p2-f2" aria-labelledby="e5-p2-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">14 lines</span><button class="copy" type="button" data-copy="e5-p2-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p2-f2-code" class="language-plaintext nohighlight">t=  0 ns ctrl=00 asr=0 sin_r=0 sin_l=0 clr=0  -&gt;  q=00000000
+t= 20 ns ctrl=11 asr=0 sin_r=0 sin_l=0 clr=0  -&gt;  q=00000000
+t= 25 ns ctrl=11 asr=0 sin_r=0 sin_l=0 clr=0  -&gt;  q=10110010
+t= 30 ns ctrl=01 asr=0 sin_r=0 sin_l=0 clr=0  -&gt;  q=10110010
+t= 35 ns ctrl=01 asr=0 sin_r=0 sin_l=0 clr=0  -&gt;  q=01011001
+t= 40 ns ctrl=11 asr=0 sin_r=0 sin_l=0 clr=0  -&gt;  q=01011001
+t= 45 ns ctrl=11 asr=0 sin_r=0 sin_l=0 clr=0  -&gt;  q=10110010
+t= 50 ns ctrl=01 asr=1 sin_r=0 sin_l=0 clr=0  -&gt;  q=10110010
+t= 55 ns ctrl=01 asr=1 sin_r=0 sin_l=0 clr=0  -&gt;  q=11011001
+t= 60 ns ctrl=10 asr=0 sin_r=0 sin_l=1 clr=0  -&gt;  q=11011001
+t= 65 ns ctrl=10 asr=0 sin_r=0 sin_l=1 clr=0  -&gt;  q=10110011
+t= 70 ns ctrl=00 asr=0 sin_r=0 sin_l=1 clr=0  -&gt;  q=10110011
+t= 80 ns ctrl=00 asr=0 sin_r=0 sin_l=1 clr=1  -&gt;  q=10110011
+t= 85 ns ctrl=00 asr=0 sin_r=0 sin_l=1 clr=1  -&gt;  q=00000000
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p2-f3" aria-labelledby="e5-p2-f3-t" hidden><div class="panel-bar"><span class="fname">tb_universal_shift_reg.v</span><span class="lines">98 lines</span><button class="copy" type="button" data-copy="e5-p2-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p2-f3-code" class="language-verilog">// ============================================================
 // Testbench : Universal Shift Register
 //  - shadow register updated by separate reference code
 //  - 5,000 random cycles, compared on every clock edge
@@ -1639,7 +1976,7 @@ module tb_universal_shift_reg;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p2-f2" aria-labelledby="e5-p2-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p2-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p2-f2-code" class="language-plaintext nohighlight">Random test : 5001 checks, 0 errors
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p2-f4" aria-labelledby="e5-p2-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p2-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p2-f4-code" class="language-plaintext nohighlight">Random test : 5001 checks, 0 errors
 Walking-one : after 8 left + 8 right shifts q = 00000001 (original) OK
 --------------------------------------
 Shift register (N=8): 0 errors
@@ -1651,8 +1988,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 5 · Program 3</p>
   <h2>32×32 Register File with Bypass</h2>
   <p class="summary">32 registers × 32 bits, two asynchronous read ports and one synchronous write port. Register 0 always reads 0, and a read of the address being written returns the new data.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> Shadow array, 10,000 random operations with forced same-cycle read-after-write collisions on both ports, and writes to register 0.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for 32×32 Register File with Bypass"><button class="tab" role="tab" id="e5-p3-f0-t" aria-controls="e5-p3-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">regfile32.v</span></button><button class="tab" role="tab" id="e5-p3-f1-t" aria-controls="e5-p3-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_regfile32.v</span></button><button class="tab" role="tab" id="e5-p3-f2-t" aria-controls="e5-p3-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> Shadow array, 10,000 random operations with forced same-cycle read-after-write collisions on both ports, and writes to register 0.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for 32×32 Register File with Bypass"><button class="tab" role="tab" id="e5-p3-f0-t" aria-controls="e5-p3-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">regfile32.v</span></button><button class="tab" role="tab" id="e5-p3-f1-t" aria-controls="e5-p3-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_regfile32_simple.v</span></button><button class="tab" role="tab" id="e5-p3-f2-t" aria-controls="e5-p3-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p3-f3-t" aria-controls="e5-p3-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_regfile32.v</span></button><button class="tab" role="tab" id="e5-p3-f4-t" aria-controls="e5-p3-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p3-f0" aria-labelledby="e5-p3-f0-t"><div class="panel-bar"><span class="fname">regfile32.v</span><span class="lines">37 lines</span><button class="copy" type="button" data-copy="e5-p3-f0-code">Copy</button></div><pre class="code"><code id="e5-p3-f0-code" class="language-verilog">// ============================================================
 // Program 3 : 32 x 32 Register File with Write-Through Bypass
 // ------------------------------------------------------------
@@ -1690,7 +2027,40 @@ module regfile32 (
                     (we &amp;&amp; raddr2 == waddr)        ? wdata :
                                                      regs[raddr2];
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p3-f1" aria-labelledby="e5-p3-f1-t" hidden><div class="panel-bar"><span class="fname">tb_regfile32.v</span><span class="lines">95 lines</span><button class="copy" type="button" data-copy="e5-p3-f1-code">Copy</button></div><pre class="code"><code id="e5-p3-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p3-f1" aria-labelledby="e5-p3-f1-t" hidden><div class="panel-bar"><span class="fname">tb_regfile32_simple.v</span><span class="lines">29 lines</span><button class="copy" type="button" data-copy="e5-p3-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p3-f1-code" class="language-verilog">// Simple testbench : 32 x 32 Register File
+`timescale 1ns/1ps
+module tb_regfile32_simple;
+    reg         clk = 0, we = 0;
+    reg  [4:0]  waddr = 0, raddr1 = 0, raddr2 = 0;
+    reg  [31:0] wdata = 0;
+    wire [31:0] rdata1, rdata2;
+
+    regfile32 dut (.clk(clk), .we(we), .waddr(waddr), .wdata(wdata),
+                   .raddr1(raddr1), .raddr2(raddr2), .rdata1(rdata1), .rdata2(rdata2));
+
+    always #5 clk = ~clk;
+
+    // print the read ports just before each rising edge
+    task show;
+        begin
+            #3 $display("we=%b waddr=%0d wdata=%h | raddr1=%0d rdata1=%h | raddr2=%0d rdata2=%h",
+                        we, waddr, wdata, raddr1, rdata1, raddr2, rdata2);
+        end
+    endtask
+
+    initial begin
+        @(negedge clk) we = 1; waddr = 5;  wdata = 32'hAAAA_AAAA; raddr1 = 5; show;  // bypass: rdata1 = AAAAAAAA now
+        @(negedge clk) we = 1; waddr = 10; wdata = 32'h1234_5678; raddr1 = 5; raddr2 = 10; show; // r5 stored, r10 bypass
+        @(negedge clk) we = 1; waddr = 0;  wdata = 32'hDEAD_BEEF; raddr1 = 0; show;  // write to r0: reads 0
+        @(negedge clk) we = 0;             raddr1 = 0; raddr2 = 5; show;             // r0 still 0, r5 = AAAAAAAA
+        @(negedge clk) $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p3-f2" aria-labelledby="e5-p3-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">4 lines</span><button class="copy" type="button" data-copy="e5-p3-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p3-f2-code" class="language-plaintext nohighlight">we=1 waddr=5 wdata=aaaaaaaa | raddr1=5 rdata1=aaaaaaaa | raddr2=0 rdata2=00000000
+we=1 waddr=10 wdata=12345678 | raddr1=5 rdata1=aaaaaaaa | raddr2=10 rdata2=12345678
+we=1 waddr=0 wdata=deadbeef | raddr1=0 rdata1=00000000 | raddr2=10 rdata2=12345678
+we=0 waddr=0 wdata=deadbeef | raddr1=0 rdata1=00000000 | raddr2=5 rdata2=aaaaaaaa
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p3-f3" aria-labelledby="e5-p3-f3-t" hidden><div class="panel-bar"><span class="fname">tb_regfile32.v</span><span class="lines">95 lines</span><button class="copy" type="button" data-copy="e5-p3-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p3-f3-code" class="language-verilog">// ============================================================
 // Testbench : Register File
 //  - shadow array = reference model
 //  - first write every register (so nothing is unknown)
@@ -1785,7 +2155,7 @@ module tb_regfile32;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p3-f2" aria-labelledby="e5-p3-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p3-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p3-f2-code" class="language-plaintext nohighlight">Register 0 after writing DEADBEEF reads 00000000  OK
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p3-f4" aria-labelledby="e5-p3-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p3-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p3-f4-code" class="language-plaintext nohighlight">Register 0 after writing DEADBEEF reads 00000000  OK
 --------------------------------------
 Checks: 10002  collisions port1: 1260  port2: 1254  writes to r0: 457
 Errors: 0
@@ -1797,8 +2167,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 5 · Program 4</p>
   <h2>Programmable Modulo-N Up/Down Counter</h2>
   <p class="summary">Counts 0 … mod_val−1 for any modulus 2–255, up or down, with enable, sync load and a one-cycle terminal-count pulse on each wrap. Loading a value ≥ mod_val loads 0.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> 25 moduli (2, 3, 255 and random); each wraps in both directions; random enable, direction and load; mod_val changed mid-count.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Programmable Modulo-N Up/Down Counter"><button class="tab" role="tab" id="e5-p4-f0-t" aria-controls="e5-p4-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">modn_counter.v</span></button><button class="tab" role="tab" id="e5-p4-f1-t" aria-controls="e5-p4-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_modn_counter.v</span></button><button class="tab" role="tab" id="e5-p4-f2-t" aria-controls="e5-p4-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> 25 moduli (2, 3, 255 and random); each wraps in both directions; random enable, direction and load; mod_val changed mid-count.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Programmable Modulo-N Up/Down Counter"><button class="tab" role="tab" id="e5-p4-f0-t" aria-controls="e5-p4-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">modn_counter.v</span></button><button class="tab" role="tab" id="e5-p4-f1-t" aria-controls="e5-p4-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_modn_counter_simple.v</span></button><button class="tab" role="tab" id="e5-p4-f2-t" aria-controls="e5-p4-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p4-f3-t" aria-controls="e5-p4-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_modn_counter.v</span></button><button class="tab" role="tab" id="e5-p4-f4-t" aria-controls="e5-p4-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p4-f0" aria-labelledby="e5-p4-f0-t"><div class="panel-bar"><span class="fname">modn_counter.v</span><span class="lines">52 lines</span><button class="copy" type="button" data-copy="e5-p4-f0-code">Copy</button></div><pre class="code"><code id="e5-p4-f0-code" class="language-verilog">// ============================================================
 // Program 4 : Programmable Modulo-N Up/Down Counter (8-bit)
 // ------------------------------------------------------------
@@ -1851,7 +2221,52 @@ module modn_counter (
             tc &lt;= 1'b0;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p4-f1" aria-labelledby="e5-p4-f1-t" hidden><div class="panel-bar"><span class="fname">tb_modn_counter.v</span><span class="lines">112 lines</span><button class="copy" type="button" data-copy="e5-p4-f1-code">Copy</button></div><pre class="code"><code id="e5-p4-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p4-f1" aria-labelledby="e5-p4-f1-t" hidden><div class="panel-bar"><span class="fname">tb_modn_counter_simple.v</span><span class="lines">28 lines</span><button class="copy" type="button" data-copy="e5-p4-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p4-f1-code" class="language-verilog">// Simple testbench : Modulo-N Counter with mod_val = 5
+`timescale 1ns/1ps
+module tb_modn_counter_simple;
+    reg        clk = 0, rst_n = 0, en = 0, up = 1, load = 0;
+    reg  [7:0] load_val = 0, mod_val = 5;
+    wire [7:0] count;
+    wire       tc;
+
+    modn_counter dut (.clk(clk), .rst_n(rst_n), .en(en), .up(up), .load(load),
+                      .load_val(load_val), .mod_val(mod_val), .count(count), .tc(tc));
+
+    always #5 clk = ~clk;
+
+    initial begin
+        $monitor("t=%3d ns en=%b up=%b load=%b load_val=%0d  -&gt;  count=%0d tc=%b",
+                 $time, en, up, load, load_val, count, tc);
+
+        #12 rst_n = 1;
+        @(negedge clk) en = 1; up = 1;        // count up : 1 2 3 4 0(tc=1) 1
+        repeat (6) @(negedge clk);
+        up = 0;                               // count down : 0 4(tc=1) 3
+        repeat (3) @(negedge clk);
+        load = 1; load_val = 9;               // 9 &gt;= 5 : loads 0
+        @(negedge clk) load_val = 3;          // loads 3
+        @(negedge clk) load = 0; en = 0;      // en = 0 : holds 3
+        @(negedge clk) @(negedge clk) $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p4-f2" aria-labelledby="e5-p4-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">17 lines</span><button class="copy" type="button" data-copy="e5-p4-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p4-f2-code" class="language-plaintext nohighlight">t=  0 ns en=0 up=1 load=0 load_val=0  -&gt;  count=0 tc=0
+t= 20 ns en=1 up=1 load=0 load_val=0  -&gt;  count=0 tc=0
+t= 25 ns en=1 up=1 load=0 load_val=0  -&gt;  count=1 tc=0
+t= 35 ns en=1 up=1 load=0 load_val=0  -&gt;  count=2 tc=0
+t= 45 ns en=1 up=1 load=0 load_val=0  -&gt;  count=3 tc=0
+t= 55 ns en=1 up=1 load=0 load_val=0  -&gt;  count=4 tc=0
+t= 65 ns en=1 up=1 load=0 load_val=0  -&gt;  count=0 tc=1
+t= 75 ns en=1 up=1 load=0 load_val=0  -&gt;  count=1 tc=0
+t= 80 ns en=1 up=0 load=0 load_val=0  -&gt;  count=1 tc=0
+t= 85 ns en=1 up=0 load=0 load_val=0  -&gt;  count=0 tc=0
+t= 95 ns en=1 up=0 load=0 load_val=0  -&gt;  count=4 tc=1
+t=105 ns en=1 up=0 load=0 load_val=0  -&gt;  count=3 tc=0
+t=110 ns en=1 up=0 load=1 load_val=9  -&gt;  count=3 tc=0
+t=115 ns en=1 up=0 load=1 load_val=9  -&gt;  count=0 tc=0
+t=120 ns en=1 up=0 load=1 load_val=3  -&gt;  count=0 tc=0
+t=125 ns en=1 up=0 load=1 load_val=3  -&gt;  count=3 tc=0
+t=130 ns en=0 up=0 load=0 load_val=3  -&gt;  count=3 tc=0
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p4-f3" aria-labelledby="e5-p4-f3-t" hidden><div class="panel-bar"><span class="fname">tb_modn_counter.v</span><span class="lines">112 lines</span><button class="copy" type="button" data-copy="e5-p4-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p4-f3-code" class="language-verilog">// ============================================================
 // Testbench : Modulo-N Counter
 //  For 25 different moduli (2, 3, 255, and random values):
 //    phase 1 : count UP past the top   -&gt; checks mod_val-1 -&gt; 0 wrap
@@ -1963,7 +2378,7 @@ module tb_modn_counter;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p4-f2" aria-labelledby="e5-p4-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">29 lines</span><button class="copy" type="button" data-copy="e5-p4-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p4-f2-code" class="language-plaintext nohighlight">mod_val =   2 : up-wrap and down-wrap both checked
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p4-f4" aria-labelledby="e5-p4-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">29 lines</span><button class="copy" type="button" data-copy="e5-p4-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p4-f4-code" class="language-plaintext nohighlight">mod_val =   2 : up-wrap and down-wrap both checked
 mod_val =   3 : up-wrap and down-wrap both checked
 mod_val = 255 : up-wrap and down-wrap both checked
 mod_val =  10 : up-wrap and down-wrap both checked
@@ -1999,8 +2414,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 5 · Program 5</p>
   <h2>Self-Correcting Johnson Counter</h2>
   <p class="summary">8-bit twisted-ring counter with 16 valid states. A valid state has at most one place where neighbouring bits differ; any other state jumps to 00000000 on the next clock.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> Starts from all 256 states with the load port, measures the recovery time (worst case 1 clock) and checks the 16-state cycle afterwards.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Self-Correcting Johnson Counter"><button class="tab" role="tab" id="e5-p5-f0-t" aria-controls="e5-p5-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">johnson_counter.v</span></button><button class="tab" role="tab" id="e5-p5-f1-t" aria-controls="e5-p5-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_johnson_counter.v</span></button><button class="tab" role="tab" id="e5-p5-f2-t" aria-controls="e5-p5-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> Starts from all 256 states with the load port, measures the recovery time (worst case 1 clock) and checks the 16-state cycle afterwards.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Self-Correcting Johnson Counter"><button class="tab" role="tab" id="e5-p5-f0-t" aria-controls="e5-p5-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">johnson_counter.v</span></button><button class="tab" role="tab" id="e5-p5-f1-t" aria-controls="e5-p5-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_johnson_counter_simple.v</span></button><button class="tab" role="tab" id="e5-p5-f2-t" aria-controls="e5-p5-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p5-f3-t" aria-controls="e5-p5-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_johnson_counter.v</span></button><button class="tab" role="tab" id="e5-p5-f4-t" aria-controls="e5-p5-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p5-f0" aria-labelledby="e5-p5-f0-t"><div class="panel-bar"><span class="fname">johnson_counter.v</span><span class="lines">46 lines</span><button class="copy" type="button" data-copy="e5-p5-f0-code">Copy</button></div><pre class="code"><code id="e5-p5-f0-code" class="language-verilog">// ============================================================
 // Program 5 : Self-Correcting 8-bit Johnson (Twisted-Ring) Counter
 // ------------------------------------------------------------
@@ -2047,7 +2462,53 @@ module johnson_counter (
             q &lt;= {q[6:0], ~q[7]};         // normal Johnson step
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p5-f1" aria-labelledby="e5-p5-f1-t" hidden><div class="panel-bar"><span class="fname">tb_johnson_counter.v</span><span class="lines">71 lines</span><button class="copy" type="button" data-copy="e5-p5-f1-code">Copy</button></div><pre class="code"><code id="e5-p5-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p5-f1" aria-labelledby="e5-p5-f1-t" hidden><div class="panel-bar"><span class="fname">tb_johnson_counter_simple.v</span><span class="lines">25 lines</span><button class="copy" type="button" data-copy="e5-p5-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p5-f1-code" class="language-verilog">// Simple testbench : Self-Correcting Johnson Counter
+`timescale 1ns/1ps
+module tb_johnson_counter_simple;
+    reg        clk = 0, rst_n = 0, load = 0;
+    reg  [7:0] load_val = 0;
+    wire [7:0] q;
+    wire       valid;
+
+    johnson_counter dut (.clk(clk), .rst_n(rst_n), .load(load),
+                         .load_val(load_val), .q(q), .valid(valid));
+
+    always #5 clk = ~clk;
+
+    initial begin
+        $monitor("t=%3d ns  q=%b  valid=%b", $time, q, valid);
+
+        #12 rst_n = 1;
+        repeat (16) @(negedge clk);           // 16 states, then back to 00000000
+
+        load = 1; load_val = 8'b0000_0010;    // force an ILLEGAL state
+        @(negedge clk) load = 0;              // q = 00000010, valid = 0
+        repeat (3) @(negedge clk);            // corrected to 00000000, then 00000001 ...
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p5-f2" aria-labelledby="e5-p5-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">21 lines</span><button class="copy" type="button" data-copy="e5-p5-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p5-f2-code" class="language-plaintext nohighlight">t=  0 ns  q=00000000  valid=1
+t= 15 ns  q=00000001  valid=1
+t= 25 ns  q=00000011  valid=1
+t= 35 ns  q=00000111  valid=1
+t= 45 ns  q=00001111  valid=1
+t= 55 ns  q=00011111  valid=1
+t= 65 ns  q=00111111  valid=1
+t= 75 ns  q=01111111  valid=1
+t= 85 ns  q=11111111  valid=1
+t= 95 ns  q=11111110  valid=1
+t=105 ns  q=11111100  valid=1
+t=115 ns  q=11111000  valid=1
+t=125 ns  q=11110000  valid=1
+t=135 ns  q=11100000  valid=1
+t=145 ns  q=11000000  valid=1
+t=155 ns  q=10000000  valid=1
+t=165 ns  q=00000000  valid=1
+t=175 ns  q=00000010  valid=0
+t=185 ns  q=00000000  valid=1
+t=195 ns  q=00000001  valid=1
+t=205 ns  q=00000011  valid=1
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p5-f3" aria-labelledby="e5-p5-f3-t" hidden><div class="panel-bar"><span class="fname">tb_johnson_counter.v</span><span class="lines">71 lines</span><button class="copy" type="button" data-copy="e5-p5-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p5-f3-code" class="language-verilog">// ============================================================
 // Testbench : Self-Correcting Johnson Counter
 //  For EVERY one of the 256 states:
 //   1. load it with the load port
@@ -2118,7 +2579,7 @@ module tb_johnson_counter;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p5-f2" aria-labelledby="e5-p5-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p5-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p5-f2-code" class="language-plaintext nohighlight">--------------------------------------
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p5-f4" aria-labelledby="e5-p5-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p5-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p5-f4-code" class="language-plaintext nohighlight">--------------------------------------
 Valid states found     : 16 (expected 16)
 Worst-case recovery    : 1 clock(s) (from state 00000010)
 Errors                 : 0
@@ -2130,8 +2591,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 5 · Program 6</p>
   <h2>Maximal-Length 16-bit LFSR</h2>
   <p class="summary">Polynomial x¹⁶ + x¹⁴ + x¹³ + x¹¹ + 1 in Fibonacci or Galois form, chosen by a parameter. Seed load, and the all-zero lock-up state is never allowed.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> Every visited state is marked in a 65,536-entry array: no early repeats, never zero, and period exactly 65,535 for both forms.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Maximal-Length 16-bit LFSR"><button class="tab" role="tab" id="e5-p6-f0-t" aria-controls="e5-p6-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">lfsr16.v</span></button><button class="tab" role="tab" id="e5-p6-f1-t" aria-controls="e5-p6-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_lfsr16.v</span></button><button class="tab" role="tab" id="e5-p6-f2-t" aria-controls="e5-p6-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> Every visited state is marked in a 65,536-entry array: no early repeats, never zero, and period exactly 65,535 for both forms.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Maximal-Length 16-bit LFSR"><button class="tab" role="tab" id="e5-p6-f0-t" aria-controls="e5-p6-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">lfsr16.v</span></button><button class="tab" role="tab" id="e5-p6-f1-t" aria-controls="e5-p6-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_lfsr16_simple.v</span></button><button class="tab" role="tab" id="e5-p6-f2-t" aria-controls="e5-p6-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p6-f3-t" aria-controls="e5-p6-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_lfsr16.v</span></button><button class="tab" role="tab" id="e5-p6-f4-t" aria-controls="e5-p6-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p6-f0" aria-labelledby="e5-p6-f0-t"><div class="panel-bar"><span class="fname">lfsr16.v</span><span class="lines">38 lines</span><button class="copy" type="button" data-copy="e5-p6-f0-code">Copy</button></div><pre class="code"><code id="e5-p6-f0-code" class="language-verilog">// ============================================================
 // Program 6 : 16-bit Maximal-Length LFSR
 // ------------------------------------------------------------
@@ -2170,7 +2631,45 @@ module lfsr16 #(parameter TYPE = 0) (
             q &lt;= (q &gt;&gt; 1) ^ (q[0] ? 16'hB400 : 16'h0000);  // Galois
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p6-f1" aria-labelledby="e5-p6-f1-t" hidden><div class="panel-bar"><span class="fname">tb_lfsr16.v</span><span class="lines">86 lines</span><button class="copy" type="button" data-copy="e5-p6-f1-code">Copy</button></div><pre class="code"><code id="e5-p6-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p6-f1" aria-labelledby="e5-p6-f1-t" hidden><div class="panel-bar"><span class="fname">tb_lfsr16_simple.v</span><span class="lines">26 lines</span><button class="copy" type="button" data-copy="e5-p6-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p6-f1-code" class="language-verilog">// Simple testbench : 16-bit LFSR, Fibonacci and Galois side by side
+`timescale 1ns/1ps
+module tb_lfsr16_simple;
+    reg         clk = 0, rst_n = 0, load = 0;
+    reg  [15:0] seed = 16'hACE1;
+    wire [15:0] q_fib, q_gal;
+
+    lfsr16 #(.TYPE(0)) fib (.clk(clk), .rst_n(rst_n), .load(load), .seed(seed), .q(q_fib));
+    lfsr16 #(.TYPE(1)) gal (.clk(clk), .rst_n(rst_n), .load(load), .seed(seed), .q(q_gal));
+
+    always #5 clk = ~clk;
+
+    initial begin
+        $monitor("t=%3d ns  fibonacci=%h  galois=%h", $time, q_fib, q_gal);
+
+        #12 rst_n = 1;
+        @(negedge clk) load = 1;              // both load seed ACE1
+        @(negedge clk) load = 0;
+        repeat (6) @(negedge clk);            // pseudo-random values, never 0000
+
+        seed = 16'h0000; load = 1;            // try to load 0 ...
+        @(negedge clk) load = 0;              // ... both get 0001 instead (no lock-up)
+        repeat (2) @(negedge clk);
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p6-f2" aria-labelledby="e5-p6-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">12 lines</span><button class="copy" type="button" data-copy="e5-p6-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p6-f2-code" class="language-plaintext nohighlight">t=  0 ns  fibonacci=0001  galois=0001
+t= 15 ns  fibonacci=8000  galois=b400
+t= 25 ns  fibonacci=ace1  galois=ace1
+t= 35 ns  fibonacci=5670  galois=e270
+t= 45 ns  fibonacci=ab38  galois=7138
+t= 55 ns  fibonacci=559c  galois=389c
+t= 65 ns  fibonacci=2ace  galois=1c4e
+t= 75 ns  fibonacci=1567  galois=0e27
+t= 85 ns  fibonacci=8ab3  galois=b313
+t= 95 ns  fibonacci=0001  galois=0001
+t=105 ns  fibonacci=8000  galois=b400
+t=115 ns  fibonacci=4000  galois=5a00
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p6-f3" aria-labelledby="e5-p6-f3-t" hidden><div class="panel-bar"><span class="fname">tb_lfsr16.v</span><span class="lines">86 lines</span><button class="copy" type="button" data-copy="e5-p6-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p6-f3-code" class="language-verilog">// ============================================================
 // Testbench : 16-bit LFSR (Fibonacci and Galois)
 //  For each version:
 //   - mark every visited state in a 65,536-entry array
@@ -2256,7 +2755,7 @@ module tb_lfsr16;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p6-f2" aria-labelledby="e5-p6-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">6 lines</span><button class="copy" type="button" data-copy="e5-p6-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p6-f2-code" class="language-plaintext nohighlight">Fibonacci LFSR : period = 65535
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p6-f4" aria-labelledby="e5-p6-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">6 lines</span><button class="copy" type="button" data-copy="e5-p6-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p6-f4-code" class="language-plaintext nohighlight">Fibonacci LFSR : period = 65535
 Galois    LFSR : period = 65535
 Seed 0 loaded -&gt; fib = 2000, gal = 2d00 (not stuck)
 --------------------------------------
@@ -2269,8 +2768,8 @@ RESULT: PASS  (both forms have maximal period 65535)
   <p class="eyebrow">Experiment 5 · Program 7</p>
   <h2>Parameterized Gray Code Counter</h2>
   <p class="summary">N-bit (default 6) counter that counts in binary inside and registers Gray = bin ^ (bin &gt;&gt; 1), so the output comes straight from flip-flops with no glitches.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> Every edge: exactly one bit changes, output equals a reference counter converted to Gray, and the wrap to 0 is a 1-bit change. Runs 3 full periods.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Parameterized Gray Code Counter"><button class="tab" role="tab" id="e5-p7-f0-t" aria-controls="e5-p7-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">gray_counter.v</span></button><button class="tab" role="tab" id="e5-p7-f1-t" aria-controls="e5-p7-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_gray_counter.v</span></button><button class="tab" role="tab" id="e5-p7-f2-t" aria-controls="e5-p7-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> Every edge: exactly one bit changes, output equals a reference counter converted to Gray, and the wrap to 0 is a 1-bit change. Runs 3 full periods.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Parameterized Gray Code Counter"><button class="tab" role="tab" id="e5-p7-f0-t" aria-controls="e5-p7-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">gray_counter.v</span></button><button class="tab" role="tab" id="e5-p7-f1-t" aria-controls="e5-p7-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_gray_counter_simple.v</span></button><button class="tab" role="tab" id="e5-p7-f2-t" aria-controls="e5-p7-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p7-f3-t" aria-controls="e5-p7-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_gray_counter.v</span></button><button class="tab" role="tab" id="e5-p7-f4-t" aria-controls="e5-p7-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p7-f0" aria-labelledby="e5-p7-f0-t"><div class="panel-bar"><span class="fname">gray_counter.v</span><span class="lines">30 lines</span><button class="copy" type="button" data-copy="e5-p7-f0-code">Copy</button></div><pre class="code"><code id="e5-p7-f0-code" class="language-verilog">// ============================================================
 // Program 7 : Parameterized Gray Code Counter (default N = 6)
 // ------------------------------------------------------------
@@ -2301,7 +2800,50 @@ module gray_counter #(parameter N = 6) (
         end
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p7-f1" aria-labelledby="e5-p7-f1-t" hidden><div class="panel-bar"><span class="fname">tb_gray_counter.v</span><span class="lines">81 lines</span><button class="copy" type="button" data-copy="e5-p7-f1-code">Copy</button></div><pre class="code"><code id="e5-p7-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p7-f1" aria-labelledby="e5-p7-f1-t" hidden><div class="panel-bar"><span class="fname">tb_gray_counter_simple.v</span><span class="lines">23 lines</span><button class="copy" type="button" data-copy="e5-p7-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p7-f1-code" class="language-verilog">// Simple testbench : Gray Code Counter (N = 4 so one full cycle is short)
+`timescale 1ns/1ps
+module tb_gray_counter_simple;
+    reg        clk = 0, rst = 1, en = 0;
+    wire [3:0] gray_out;
+
+    gray_counter #(.N(4)) dut (.clk(clk), .rst(rst), .en(en), .gray_out(gray_out));
+
+    always #5 clk = ~clk;
+
+    initial begin
+        $monitor("t=%3d ns  en=%b  gray_out=%b", $time, en, gray_out);
+
+        // gray_out is x until the first clock edge with rst = 1 (sync reset)
+        #12 rst = 0; en = 1;
+        // expect: 0001 0011 0010 0110 0111 0101 0100 1100
+        //         1101 1111 1110 1010 1011 1001 1000 0000
+        repeat (16) @(negedge clk);
+        en = 0;                               // en = 0 : output holds
+        repeat (2) @(negedge clk);
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p7-f2" aria-labelledby="e5-p7-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">20 lines</span><button class="copy" type="button" data-copy="e5-p7-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p7-f2-code" class="language-plaintext nohighlight">t=  0 ns  en=0  gray_out=xxxx
+t=  5 ns  en=0  gray_out=0000
+t= 12 ns  en=1  gray_out=0000
+t= 15 ns  en=1  gray_out=0001
+t= 25 ns  en=1  gray_out=0011
+t= 35 ns  en=1  gray_out=0010
+t= 45 ns  en=1  gray_out=0110
+t= 55 ns  en=1  gray_out=0111
+t= 65 ns  en=1  gray_out=0101
+t= 75 ns  en=1  gray_out=0100
+t= 85 ns  en=1  gray_out=1100
+t= 95 ns  en=1  gray_out=1101
+t=105 ns  en=1  gray_out=1111
+t=115 ns  en=1  gray_out=1110
+t=125 ns  en=1  gray_out=1010
+t=135 ns  en=1  gray_out=1011
+t=145 ns  en=1  gray_out=1001
+t=155 ns  en=1  gray_out=1000
+t=165 ns  en=1  gray_out=0000
+t=170 ns  en=0  gray_out=0000
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p7-f3" aria-labelledby="e5-p7-f3-t" hidden><div class="panel-bar"><span class="fname">tb_gray_counter.v</span><span class="lines">81 lines</span><button class="copy" type="button" data-copy="e5-p7-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p7-f3-code" class="language-verilog">// ============================================================
 // Testbench : Gray Code Counter
 //  On every clock edge check:
 //   1. exactly one output bit changes per increment
@@ -2382,7 +2924,7 @@ module tb_gray_counter;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p7-f2" aria-labelledby="e5-p7-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">6 lines</span><button class="copy" type="button" data-copy="e5-p7-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p7-f2-code" class="language-plaintext nohighlight">Wrap 1 at 710000 : 100000 -&gt; 000000
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p7-f4" aria-labelledby="e5-p7-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">6 lines</span><button class="copy" type="button" data-copy="e5-p7-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p7-f4-code" class="language-plaintext nohighlight">Wrap 1 at 710000 : 100000 -&gt; 000000
 Wrap 2 at 1410000 : 100000 -&gt; 000000
 Wrap 3 at 2150000 : 100000 -&gt; 000000
 --------------------------------------
@@ -2395,8 +2937,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 5 · Program 8</p>
   <h2>24-Hour Digital Clock</h2>
   <p class="summary">Cascaded BCD counters for seconds, minutes and hours, driven by a 1 Hz tick from a parameterized prescaler. Set mode adds minutes or hours without touching other digits.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> A full 86,400-second day compared with a binary reference every second; the three rollovers are printed; set mode tested.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for 24-Hour Digital Clock"><button class="tab" role="tab" id="e5-p8-f0-t" aria-controls="e5-p8-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">digital_clock.v</span></button><button class="tab" role="tab" id="e5-p8-f1-t" aria-controls="e5-p8-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_digital_clock.v</span></button><button class="tab" role="tab" id="e5-p8-f2-t" aria-controls="e5-p8-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> A full 86,400-second day compared with a binary reference every second; the three rollovers are printed; set mode tested.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for 24-Hour Digital Clock"><button class="tab" role="tab" id="e5-p8-f0-t" aria-controls="e5-p8-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">digital_clock.v</span></button><button class="tab" role="tab" id="e5-p8-f1-t" aria-controls="e5-p8-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_digital_clock_simple.v</span></button><button class="tab" role="tab" id="e5-p8-f2-t" aria-controls="e5-p8-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p8-f3-t" aria-controls="e5-p8-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_digital_clock.v</span></button><button class="tab" role="tab" id="e5-p8-f4-t" aria-controls="e5-p8-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p8-f0" aria-labelledby="e5-p8-f0-t"><div class="panel-bar"><span class="fname">digital_clock.v</span><span class="lines">87 lines</span><button class="copy" type="button" data-copy="e5-p8-f0-code">Copy</button></div><pre class="code"><code id="e5-p8-f0-code" class="language-verilog">// ============================================================
 // Program 8 : 24-Hour Digital Clock (cascaded BCD counters)
 // ------------------------------------------------------------
@@ -2484,7 +3026,54 @@ module digital_clock #(parameter PRESCALE = 50_000_000) (
         end
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p8-f1" aria-labelledby="e5-p8-f1-t" hidden><div class="panel-bar"><span class="fname">tb_digital_clock.v</span><span class="lines">95 lines</span><button class="copy" type="button" data-copy="e5-p8-f1-code">Copy</button></div><pre class="code"><code id="e5-p8-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p8-f1" aria-labelledby="e5-p8-f1-t" hidden><div class="panel-bar"><span class="fname">tb_digital_clock_simple.v</span><span class="lines">42 lines</span><button class="copy" type="button" data-copy="e5-p8-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p8-f1-code" class="language-verilog">// Simple testbench : 24-Hour Digital Clock
+// PRESCALE = 2, so one "second" = 2 clock cycles.
+// Set the time to 23:59:00 in set mode, then let it run past midnight.
+`timescale 1ns/1ps
+module tb_digital_clock_simple;
+    reg  clk = 0, rst_n = 0, set_mode = 0, inc_min = 0, inc_hr = 0;
+    wire [3:0] h_tens, h_ones, m_tens, m_ones, s_tens, s_ones;
+    wire tick;
+
+    digital_clock #(.PRESCALE(2)) dut (
+        .clk(clk), .rst_n(rst_n), .set_mode(set_mode), .inc_min(inc_min), .inc_hr(inc_hr),
+        .h_tens(h_tens), .h_ones(h_ones), .m_tens(m_tens), .m_ones(m_ones),
+        .s_tens(s_tens), .s_ones(s_ones), .tick(tick));
+
+    always #5 clk = ~clk;
+
+    task show;
+        $display("t=%5d ns  time = %0d%0d:%0d%0d:%0d%0d", $time,
+                 h_tens, h_ones, m_tens, m_ones, s_tens, s_ones);
+    endtask
+
+    initial begin
+        #12 rst_n = 1;
+        show;                                                   // 00:00:00
+
+        // ---- set mode : 23 hours and 59 minutes ----
+        set_mode = 1;
+        repeat (23) begin @(negedge clk) inc_hr  = 1; @(negedge clk) inc_hr  = 0; end
+        repeat (59) begin @(negedge clk) inc_min = 1; @(negedge clk) inc_min = 0; end
+        set_mode = 0;
+        show;                                                   // 23:59:00
+
+        // ---- run : 59 seconds, then 1 more ----
+        repeat (59) begin @(posedge tick); @(posedge clk); end
+        #1 show;                                                // 23:59:59
+        @(posedge tick); @(posedge clk);
+        #1 show;                                                // 00:00:00 (midnight)
+        repeat (5) begin @(posedge tick); @(posedge clk); end
+        #1 show;                                                // 00:00:05
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p8-f2" aria-labelledby="e5-p8-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p8-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p8-f2-code" class="language-plaintext nohighlight">t=   12 ns  time = 00:00:00
+t= 1650 ns  time = 23:59:00
+t= 2826 ns  time = 23:59:59
+t= 2846 ns  time = 00:00:00
+t= 2946 ns  time = 00:00:05
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p8-f3" aria-labelledby="e5-p8-f3-t" hidden><div class="panel-bar"><span class="fname">tb_digital_clock.v</span><span class="lines">95 lines</span><button class="copy" type="button" data-copy="e5-p8-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p8-f3-code" class="language-verilog">// ============================================================
 // Testbench : 24-Hour Digital Clock
 //  - PRESCALE = 2 so a "second" is only 2 clocks (fast)
 //  - runs a full day : 86,400 seconds
@@ -2579,7 +3168,7 @@ module tb_digital_clock;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p8-f2" aria-labelledby="e5-p8-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">14 lines</span><button class="copy" type="button" data-copy="e5-p8-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p8-f2-code" class="language-plaintext nohighlight">  00:00:59 -&gt; 00:01:00 : 00:00:59
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p8-f4" aria-labelledby="e5-p8-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">14 lines</span><button class="copy" type="button" data-copy="e5-p8-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p8-f4-code" class="language-plaintext nohighlight">  00:00:59 -&gt; 00:01:00 : 00:00:59
   00:00:59 -&gt; 00:01:00 : 00:01:00
   00:59:59 -&gt; 01:00:00 : 00:59:59
   00:59:59 -&gt; 01:00:00 : 01:00:00
@@ -2600,8 +3189,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 5 · Program 9</p>
   <h2>Programmable 50% Duty-Cycle Clock Divider</h2>
   <p class="summary">Divides by any N from 1 to 255 at runtime. Odd N combines a rising-edge and a falling-edge register to get exactly 50%. A new N only takes effect at the end of a full period.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> Period and high time measured with $realtime for every N = 1…255, plus a glitch monitor during 200 random changes of N.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Programmable 50% Duty-Cycle Clock Divider"><button class="tab" role="tab" id="e5-p9-f0-t" aria-controls="e5-p9-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">clock_divider.v</span></button><button class="tab" role="tab" id="e5-p9-f1-t" aria-controls="e5-p9-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_clock_divider.v</span></button><button class="tab" role="tab" id="e5-p9-f2-t" aria-controls="e5-p9-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> Period and high time measured with $realtime for every N = 1…255, plus a glitch monitor during 200 random changes of N.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Programmable 50% Duty-Cycle Clock Divider"><button class="tab" role="tab" id="e5-p9-f0-t" aria-controls="e5-p9-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">clock_divider.v</span></button><button class="tab" role="tab" id="e5-p9-f1-t" aria-controls="e5-p9-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_clock_divider_simple.v</span></button><button class="tab" role="tab" id="e5-p9-f2-t" aria-controls="e5-p9-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p9-f3-t" aria-controls="e5-p9-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_clock_divider.v</span></button><button class="tab" role="tab" id="e5-p9-f4-t" aria-controls="e5-p9-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p9-f0" aria-labelledby="e5-p9-f0-t"><div class="panel-bar"><span class="fname">clock_divider.v</span><span class="lines">67 lines</span><button class="copy" type="button" data-copy="e5-p9-f0-code">Copy</button></div><pre class="code"><code id="e5-p9-f0-code" class="language-verilog">// ============================================================
 // Program 9 : Programmable Clock Divider, 50% duty cycle
 // ------------------------------------------------------------
@@ -2669,7 +3258,47 @@ module clock_divider (
                    | pos_q                      // even and odd N
                    | (n_act[0] &amp; neg_q);        // extra half cycle for odd N
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p9-f1" aria-labelledby="e5-p9-f1-t" hidden><div class="panel-bar"><span class="fname">tb_clock_divider.v</span><span class="lines">72 lines</span><button class="copy" type="button" data-copy="e5-p9-f1-code">Copy</button></div><pre class="code"><code id="e5-p9-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p9-f1" aria-labelledby="e5-p9-f1-t" hidden><div class="panel-bar"><span class="fname">tb_clock_divider_simple.v</span><span class="lines">35 lines</span><button class="copy" type="button" data-copy="e5-p9-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p9-f1-code" class="language-verilog">// Simple testbench : Clock Divider (input clock period = 10 ns)
+// For a few values of N, measure the output period and high time.
+`timescale 1ns/1ps
+module tb_clock_divider_simple;
+    reg        clk_in = 0, rst_n = 0;
+    reg  [7:0] n_in = 1;
+    wire       clk_out;
+    real       t1, t2, t3;
+
+    clock_divider dut (.clk_in(clk_in), .rst_n(rst_n), .n_in(n_in), .clk_out(clk_out));
+
+    always #5 clk_in = ~clk_in;
+
+    task measure(input [7:0] n);
+        begin
+            n_in = n;
+            repeat (3) @(posedge clk_out);            // let the new N start
+            @(posedge clk_out) t1 = $realtime;
+            @(negedge clk_out) t2 = $realtime;
+            @(posedge clk_out) t3 = $realtime;
+            $display("N=%0d : period = %0.1f ns, high = %0.1f ns, duty = %0.1f %%",
+                     n, t3 - t1, t2 - t1, 100.0 * (t2 - t1) / (t3 - t1));
+        end
+    endtask
+
+    initial begin
+        #12 rst_n = 1;
+        measure(2);    // expect period 20, high 10
+        measure(3);    // expect period 30, high 15 (odd N, still 50 %)
+        measure(4);    // expect period 40, high 20
+        measure(5);    // expect period 50, high 25
+        measure(1);    // expect period 10, high 5 (clk_out = clk_in)
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p9-f2" aria-labelledby="e5-p9-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p9-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p9-f2-code" class="language-plaintext nohighlight">N=2 : period = 20.0 ns, high = 10.0 ns, duty = 50.0 %
+N=3 : period = 30.0 ns, high = 15.0 ns, duty = 50.0 %
+N=4 : period = 40.0 ns, high = 20.0 ns, duty = 50.0 %
+N=5 : period = 50.0 ns, high = 25.0 ns, duty = 50.0 %
+N=1 : period = 10.0 ns, high = 5.0 ns, duty = 50.0 %
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p9-f3" aria-labelledby="e5-p9-f3-t" hidden><div class="panel-bar"><span class="fname">tb_clock_divider.v</span><span class="lines">72 lines</span><button class="copy" type="button" data-copy="e5-p9-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p9-f3-code" class="language-verilog">// ============================================================
 // Testbench : Clock Divider
 //  clk_in period = 10 ns
 //  For every N = 1 .. 255:
@@ -2741,7 +3370,7 @@ module tb_clock_divider;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p9-f2" aria-labelledby="e5-p9-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">20 lines</span><button class="copy" type="button" data-copy="e5-p9-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p9-f2-code" class="language-plaintext nohighlight">N=  1 : period   10.0 ns  high    5.0 ns  duty 50.0 %
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p9-f4" aria-labelledby="e5-p9-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">20 lines</span><button class="copy" type="button" data-copy="e5-p9-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p9-f4-code" class="language-plaintext nohighlight">N=  1 : period   10.0 ns  high    5.0 ns  duty 50.0 %
 N=  2 : period   20.0 ns  high   10.0 ns  duty 50.0 %
 N=  3 : period   30.0 ns  high   15.0 ns  duty 50.0 %
 N=  4 : period   40.0 ns  high   20.0 ns  duty 50.0 %
@@ -2768,8 +3397,8 @@ RESULT: PASS
   <p class="eyebrow">Experiment 5 · Program 10</p>
   <h2>Synchronous FIFO with Status Flags</h2>
   <p class="summary">16 × 8 FIFO using pointers with an extra wrap bit. Full, empty, almost-full, almost-empty and count, plus overflow/underflow flags when a write or read is refused.</p>
-  <p class="checks"><span class="pill">PASS</span><span><strong>Testbench checks:</strong> A Verilog array scoreboard checks data order and every flag for 20,000 cycles of random reads and writes that fill and drain the FIFO.</span></p>
-  <div class="tabs" role="tablist" aria-label="Files for Synchronous FIFO with Status Flags"><button class="tab" role="tab" id="e5-p10-f0-t" aria-controls="e5-p10-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">sync_fifo.v</span></button><button class="tab" role="tab" id="e5-p10-f1-t" aria-controls="e5-p10-f1" aria-selected="false" data-kind="tb"><span class="tab-kind">Testbench</span><span class="tab-name">tb_sync_fifo.v</span></button><button class="tab" role="tab" id="e5-p10-f2-t" aria-controls="e5-p10-f2" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Simulation output</span></button></div>
+  <p class="checks"><span class="pill">PASS</span><span><strong>Full testbench checks:</strong> A Verilog array scoreboard checks data order and every flag for 20,000 cycles of random reads and writes that fill and drain the FIFO.</span></p>
+  <div class="tabs" role="tablist" aria-label="Files for Synchronous FIFO with Status Flags"><button class="tab" role="tab" id="e5-p10-f0-t" aria-controls="e5-p10-f0" aria-selected="true" data-kind="design"><span class="tab-kind">Design</span><span class="tab-name">sync_fifo.v</span></button><button class="tab" role="tab" id="e5-p10-f1-t" aria-controls="e5-p10-f1" aria-selected="false" data-kind="stb"><span class="tab-kind">Simple TB</span><span class="tab-name">tb_sync_fifo_simple.v</span></button><button class="tab" role="tab" id="e5-p10-f2-t" aria-controls="e5-p10-f2" aria-selected="false" data-kind="sout"><span class="tab-kind">Output</span><span class="tab-name">Simple TB output</span></button><button class="tab" role="tab" id="e5-p10-f3-t" aria-controls="e5-p10-f3" aria-selected="false" data-kind="tb"><span class="tab-kind">Full TB</span><span class="tab-name">tb_sync_fifo.v</span></button><button class="tab" role="tab" id="e5-p10-f4-t" aria-controls="e5-p10-f4" aria-selected="false" data-kind="out"><span class="tab-kind">Output</span><span class="tab-name">Full TB output</span></button></div>
   <div class="panel" role="tabpanel" id="e5-p10-f0" aria-labelledby="e5-p10-f0-t"><div class="panel-bar"><span class="fname">sync_fifo.v</span><span class="lines">71 lines</span><button class="copy" type="button" data-copy="e5-p10-f0-code">Copy</button></div><pre class="code"><code id="e5-p10-f0-code" class="language-verilog">// ============================================================
 // Program 10 : Synchronous FIFO with Status Flags
 // ------------------------------------------------------------
@@ -2841,7 +3470,76 @@ module sync_fifo #(
         end
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p10-f1" aria-labelledby="e5-p10-f1-t" hidden><div class="panel-bar"><span class="fname">tb_sync_fifo.v</span><span class="lines">109 lines</span><button class="copy" type="button" data-copy="e5-p10-f1-code">Copy</button></div><pre class="code"><code id="e5-p10-f1-code" class="language-verilog">// ============================================================
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p10-f1" aria-labelledby="e5-p10-f1-t" hidden><div class="panel-bar"><span class="fname">tb_sync_fifo_simple.v</span><span class="lines">48 lines</span><button class="copy" type="button" data-copy="e5-p10-f1-code">Copy</button></div><p class="panel-note">Short, exam-sized testbench. The expected answer is written as a comment next to each input. Simulate it with the design file only.</p><pre class="code"><code id="e5-p10-f1-code" class="language-verilog">// Simple testbench : Synchronous FIFO (16 deep, 8 bits)
+// Fill it, try one extra write, then empty it and try one extra read.
+`timescale 1ns/1ps
+module tb_sync_fifo_simple;
+    reg        clk = 0, rst_n = 0, wr_en = 0, rd_en = 0;
+    reg  [7:0] wr_data = 0;
+    wire [7:0] rd_data;
+    wire       full, empty, almost_full, almost_empty, overflow, underflow;
+    wire [4:0] count;
+    integer    i;
+
+    sync_fifo dut (.clk(clk), .rst_n(rst_n), .wr_en(wr_en), .wr_data(wr_data), .rd_en(rd_en),
+                   .rd_data(rd_data), .full(full), .empty(empty), .almost_full(almost_full),
+                   .almost_empty(almost_empty), .count(count), .overflow(overflow), .underflow(underflow));
+
+    always #5 clk = ~clk;
+
+    initial begin
+        #12 rst_n = 1;
+        $display("after reset : count=%0d empty=%b full=%b", count, empty, full);   // 0 1 0
+
+        // ---- write 16 values : 10, 11, ... 1F ----
+        for (i = 0; i &lt; 16; i = i + 1) begin
+            @(negedge clk) wr_en = 1; wr_data = 8'h10 + i;
+        end
+        @(negedge clk) wr_en = 0;
+        $display("after 16 writes : count=%0d full=%b almost_full=%b", count, full, almost_full); // 16 1 1
+
+        // ---- one more write while full ----
+        wr_en = 1; wr_data = 8'hFF;
+        @(negedge clk) wr_en = 0;
+        $display("extra write : overflow=%b count=%0d", overflow, count);  // 1 16 (ignored)
+
+        // ---- read all 16 : must come out 10, 11, ... 1F (first in, first out) ----
+        for (i = 0; i &lt; 16; i = i + 1) begin
+            rd_en = 1;
+            @(negedge clk) $display("read %0d : rd_data=%h count=%0d", i, rd_data, count);
+        end
+        rd_en = 0;
+        $display("after 16 reads : count=%0d empty=%b", count, empty);     // 0 1
+
+        // ---- one more read while empty ----
+        rd_en = 1;
+        @(negedge clk) rd_en = 0;
+        $display("extra read : underflow=%b", underflow);                  // 1
+        $finish;
+    end
+endmodule
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p10-f2" aria-labelledby="e5-p10-f2-t" hidden><div class="panel-bar"><span class="fname">Simple TB output</span><span class="lines">21 lines</span><button class="copy" type="button" data-copy="e5-p10-f2-code">Copy</button></div><p class="panel-note">Real output of the design + simple testbench (Icarus Verilog). Compare each line with the comments in the testbench.</p><pre class="code"><code id="e5-p10-f2-code" class="language-plaintext nohighlight">after reset : count=0 empty=1 full=0
+after 16 writes : count=16 full=1 almost_full=1
+extra write : overflow=1 count=16
+read 0 : rd_data=10 count=15
+read 1 : rd_data=11 count=14
+read 2 : rd_data=12 count=13
+read 3 : rd_data=13 count=12
+read 4 : rd_data=14 count=11
+read 5 : rd_data=15 count=10
+read 6 : rd_data=16 count=9
+read 7 : rd_data=17 count=8
+read 8 : rd_data=18 count=7
+read 9 : rd_data=19 count=6
+read 10 : rd_data=1a count=5
+read 11 : rd_data=1b count=4
+read 12 : rd_data=1c count=3
+read 13 : rd_data=1d count=2
+read 14 : rd_data=1e count=1
+read 15 : rd_data=1f count=0
+after 16 reads : count=0 empty=1
+extra read : underflow=1
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p10-f3" aria-labelledby="e5-p10-f3-t" hidden><div class="panel-bar"><span class="fname">tb_sync_fifo.v</span><span class="lines">109 lines</span><button class="copy" type="button" data-copy="e5-p10-f3-code">Copy</button></div><p class="panel-note">Full self-checking testbench: hundreds to thousands of checks, ends with RESULT: PASS / FAIL. Use it instead of the simple one, not together with it.</p><pre class="code"><code id="e5-p10-f3-code" class="language-verilog">// ============================================================
 // Testbench : Synchronous FIFO with Scoreboard
 //  - scoreboard = a plain Verilog array used as a queue
 //    (head = next to read, tail = next to write, sb_count)
@@ -2950,7 +3648,7 @@ module tb_sync_fifo;
         $finish;
     end
 endmodule
-</code></pre></div><div class="panel" role="tabpanel" id="e5-p10-f2" aria-labelledby="e5-p10-f2-t" hidden><div class="panel-bar"><span class="fname">Simulation output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p10-f2-code">Copy</button></div><p class="panel-note">Real output from Icarus Verilog 13 for the files above.</p><pre class="code"><code id="e5-p10-f2-code" class="language-plaintext nohighlight">--------------------------------------
+</code></pre></div><div class="panel" role="tabpanel" id="e5-p10-f4" aria-labelledby="e5-p10-f4-t" hidden><div class="panel-bar"><span class="fname">Full TB output</span><span class="lines">5 lines</span><button class="copy" type="button" data-copy="e5-p10-f4-code">Copy</button></div><p class="panel-note">Real output of the design + full testbench (Icarus Verilog).</p><pre class="code"><code id="e5-p10-f4-code" class="language-plaintext nohighlight">--------------------------------------
 Cycles: 20000   successful reads checked: 7245
 Cycles full: 4126  empty: 4128  overflows: 3207  underflows: 3194
 Errors: 0
@@ -2960,7 +3658,7 @@ RESULT: PASS
     </main>
   </div>
 </div>
-<footer><div class="wrap">Click <b>Copy</b> on any file to put it on your clipboard. Testbench file names start with <code>tb_</code>.</div></footer>
+<footer><div class="wrap">Click <b>Copy</b> on any file to put it on your clipboard. Simulate the design with one testbench at a time: <code>tb_..._simple.v</code> or <code>tb_....v</code>.</div></footer>
 
 <script>
 (function () {
